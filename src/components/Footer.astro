@@ -1,0 +1,124 @@
+---
+import { site } from '../data/site';
+import { services } from '../data/services';
+import Logo from './Logo.astro';
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <Logo />
+      <p class="muted">
+        AI automation, consulting, and on-prem solutions for businesses ready
+        to work smarter. Based in {site.location.label}.
+      </p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}/`}>{s.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/services/">All Services</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Get in Touch</h4>
+      <ul class="contact-list">
+        <li>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </li>
+        <li class="faint">{site.location.label}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span class="faint">
+      &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
+    </span>
+    <span class="faint">Built in {site.location.label}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-raised);
+    margin-top: 4rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap: 2.5rem;
+    padding-top: 3rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .footer-brand p {
+    max-width: 32ch;
+    margin-top: 1rem;
+    font-size: 0.92rem;
+  }
+
+  .site-footer h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin-bottom: 0.9rem;
+  }
+
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .site-footer ul a {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+  }
+
+  .site-footer ul a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+  }
+</style>

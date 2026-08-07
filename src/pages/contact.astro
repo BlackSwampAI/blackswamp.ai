@@ -1,0 +1,274 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+
+export const prerender = false;
+
+let submitted = false;
+let error: string | null = null;
+let form = { name: '', email: '', company: '', service: '', message: '' };
+
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    form = {
+      name: String(data.get('name') ?? '').trim(),
+      email: String(data.get('email') ?? '').trim(),
+      company: String(data.get('company') ?? '').trim(),
+      service: String(data.get('service') ?? '').trim(),
+      message: String(data.get('message') ?? '').trim(),
+    };
+
+    if (!form.name || !form.email || !form.message) {
+      error = 'Please fill in your name, email, and message.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      error = 'Please enter a valid email address.';
+    } else {
+      // TODO: wire up delivery (email service, CRM, webhook, etc.)
+      console.log('[contact] new inquiry', {
+        ...form,
+        receivedAt: new Date().toISOString(),
+      });
+      submitted = true;
+    }
+  } catch {
+    error = 'Something went wrong submitting the form. Please email us directly.';
+  }
+}
+---
+
+<Base
+  title="Contact"
+  description={`Contact BlackSwamp AI Solutions in ${site.location.label} for AI automation, consulting, and on-prem AI solutions.`}
+>
+  <section class="section">
+    <div class="container contact-grid">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h1 class="section-title">Let's talk about your business</h1>
+        <p class="section-lede">
+          Tell us what's slowing you down. We'll respond within one business
+          day with honest thoughts on how — or whether — AI can help.
+        </p>
+        <ul class="contact-details">
+          <li>
+            <strong>Email</strong>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <strong>Location</strong>
+            <span class="muted">{site.location.label}</span>
+          </li>
+          <li>
+            <strong>Response time</strong>
+            <span class="muted">Within one business day</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="form-wrap card">
+        {
+          submitted ? (
+            <div class="success">
+              <div class="success-icon" aria-hidden="true">
+                ✓
+              </div>
+              <h2>Message sent</h2>
+              <p class="muted">
+                Thanks, {form.name.split(' ')[0]} — we'll get back to you at{' '}
+                <strong>{form.email}</strong> within one business day.
+              </p>
+              <a href="/" class="btn btn-ghost">Back to Home</a>
+            </div>
+          ) : (
+            <form method="POST" action="/contact/">
+              {error && <p class="form-error" role="alert">{error}</p>}
+              <div class="field-row">
+                <label>
+                  Name *
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={form.name}
+                    autocomplete="name"
+                  />
+                </label>
+                <label>
+                  Email *
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={form.email}
+                    autocomplete="email"
+                  />
+                </label>
+              </div>
+              <div class="field-row">
+                <label>
+                  Company
+                  <input
+                    type="text"
+                    name="company"
+                    value={form.company}
+                    autocomplete="organization"
+                  />
+                </label>
+                <label>
+                  Interested in
+                  <select name="service">
+                    <option value="">Select a service…</option>
+                    {services.map((s) => (
+                      <option value={s.slug} selected={form.service === s.slug}>
+                        {s.name}
+                      </option>
+                    ))}
+                    <option value="other" selected={form.service === 'other'}>
+                      Something else
+                    </option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Message *
+                <textarea
+                  name="message"
+                  rows="5"
+                  required
+                  placeholder="What are you trying to automate or improve?"
+                >{form.message}</textarea>
+              </label>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .contact-details {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .contact-details strong {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin-bottom: 0.2rem;
+  }
+
+  .form-wrap {
+    padding: 2rem;
+  }
+
+  form {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+  }
+
+  label {
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+
+  input,
+  select,
+  textarea {
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    color: var(--text);
+    font: inherit;
+    padding: 0.7rem 0.9rem;
+    width: 100%;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid var(--accent-dark);
+    border-color: var(--accent-strong);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  form .btn {
+    justify-self: start;
+  }
+
+  .form-error {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .success {
+    text-align: center;
+    padding: 2rem 1rem;
+    display: grid;
+    gap: 0.75rem;
+    justify-items: center;
+  }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid var(--accent-dark);
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .success h2 {
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

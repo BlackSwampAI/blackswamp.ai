@@ -1,0 +1,238 @@
+---
+import Base from '../layouts/Base.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { services } from '../data/services';
+import { site } from '../data/site';
+---
+
+<Base>
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow">AI Consulting & Automation · {site.location.label}</p>
+      <h1 class="hero-title">
+        <span class="hero-brand">BLACK&nbsp;SWAMP</span>
+        <span class="hero-sub">AI SOLUTIONS</span>
+      </h1>
+      <p class="hero-lede">
+        We help businesses cut through the AI hype and ship real results —
+        automation workflows that reclaim your time, consulting that tells you
+        the truth, and on-prem AI that keeps your data yours.
+      </p>
+      <div class="hero-actions">
+        <a href="/contact/" class="btn btn-primary">Book a Free Consultation</a>
+        <a href="/services/" class="btn btn-ghost">Explore Services</a>
+      </div>
+      <ul class="hero-proof">
+        <li><strong>n8n</strong> automation experts</li>
+        <li><strong>On-prem</strong> &amp; private AI</li>
+        <li><strong>Vendor-neutral</strong> advice</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">What we do</span>
+      <h2 class="section-title">Services built for real businesses</h2>
+      <p class="section-lede">
+        From automating a single workflow to deploying private AI across your
+        organization — we meet you where you are.
+      </p>
+      <div class="grid grid-2 services-grid">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section why">
+    <div class="container grid why-grid">
+      <div>
+        <span class="eyebrow">Why BlackSwamp</span>
+        <h2 class="section-title">Deep roots. Clear water.</h2>
+        <p class="muted">
+          Named for the Great Black Swamp that once covered northwest Ohio, we
+          bring the same grit and resourcefulness this region was built on —
+          now applied to the technology reshaping how work gets done.
+        </p>
+        <ul class="check-list">
+          <li>Practical roadmaps, not pie-in-the-sky decks</li>
+          <li>Open, self-hostable tooling — you own what we build</li>
+          <li>Regulated-industry experience with on-prem deployments</li>
+          <li>Local partner in Toledo, working with clients everywhere</li>
+        </ul>
+      </div>
+      <div class="stats">
+        <div class="card stat">
+          <strong>Hours back, weekly</strong>
+          <span class="muted">Automation that runs 24/7 so your team doesn't have to.</span>
+        </div>
+        <div class="card stat">
+          <strong>Your data stays yours</strong>
+          <span class="muted">Private, on-prem AI for sensitive and regulated workloads.</span>
+        </div>
+        <div class="card stat">
+          <strong>No vendor lock-in</strong>
+          <span class="muted">Open standards and honest recommendations, every time.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-band card">
+        <div>
+          <h2>Not sure where AI fits?</h2>
+          <p class="muted">
+            Tell us about your workflows. We'll show you — honestly — where
+            automation and AI will pay off, and where they won't.
+          </p>
+        </div>
+        <a href="/contact/" class="btn btn-primary">Start the Conversation</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+
+  .hero-inner {
+    max-width: 860px;
+  }
+
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 1.25rem;
+  }
+
+  .hero-brand {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.8rem, 9vw, 5.5rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    background: linear-gradient(120deg, var(--text) 55%, var(--accent) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.6vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 0.55em;
+    color: var(--accent);
+    margin-top: 0.5rem;
+  }
+
+  .hero-lede {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--text-dim);
+    max-width: 62ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+  }
+
+  .hero-proof {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 2.5rem 0 0;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .hero-proof strong {
+    color: var(--text);
+  }
+
+  .services-grid {
+    margin-top: 2rem;
+  }
+
+  .why {
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .why-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: start;
+    gap: 3rem;
+  }
+
+  .stats {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .stat strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+    color: var(--accent);
+  }
+
+  .stat span {
+    font-size: 0.92rem;
+  }
+
+  .cta-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background:
+      radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%),
+      var(--bg-card);
+  }
+
+  .cta-band h2 {
+    margin-bottom: 0.35rem;
+  }
+
+  .cta-band p {
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  @media (max-width: 900px) {
+    .why-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .hero-proof {
+      gap: 1rem;
+      flex-direction: column;
+    }
+  }
+</style>

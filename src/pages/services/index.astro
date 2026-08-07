@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { services } from '../../data/services';
+---
+
+<Base
+  title="Services"
+  description="AI automation workflows via n8n, AI consulting, on-prem AI solutions, and custom AI development from BlackSwamp AI Solutions in Toledo, Ohio."
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Services</span>
+      <h1 class="section-title">How we can help</h1>
+      <p class="section-lede">
+        Whether you need a single workflow automated or a full private AI
+        deployment, we bring the expertise to make it real — and the honesty
+        to tell you when it isn't the right move.
+      </p>
+      <div class="grid grid-2 services-grid">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+      <div class="cta-row">
+        <p class="muted">Something else in mind? We do more than the above.</p>
+        <a href="/contact/" class="btn btn-primary">Tell Us What You Need</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .services-grid {
+    margin-top: 2.5rem;
+  }
+
+  .cta-row {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+
+  .cta-row p {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+</style>

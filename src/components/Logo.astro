@@ -1,0 +1,29 @@
+---
+interface Props {
+  size?: 'sm' | 'lg';
+}
+const { size = 'sm' } = Astro.props;
+---
+
+<img
+  src="/logo.png"
+  alt="Black Swamp AI Solutions"
+  class={`logo logo-${size}`}
+  width="800"
+  height="229"
+/>
+
+<style>
+  .logo {
+    display: block;
+    width: auto;
+  }
+
+  .logo-sm {
+    height: 40px;
+  }
+
+  .logo-lg {
+    height: 58px;
+  }
+</style>

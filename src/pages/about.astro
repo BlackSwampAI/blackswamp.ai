@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base
+  title="About"
+  description={`BlackSwamp AI Solutions is an AI consulting and services company based in ${site.location.label}, named for the Great Black Swamp of northwest Ohio.`}
+>
+  <section class="section">
+    <div class="container about-grid">
+      <div>
+        <span class="eyebrow">About Us</span>
+        <h1 class="section-title">Named for the swamp.<br />Built for what's next.</h1>
+        <p class="muted">
+          Northwest Ohio was once covered by the Great Black Swamp — a vast,
+          untamed wilderness that early settlers called impassable. The people
+          of this region drained it, farmed it, and built thriving cities on
+          top of it. That same stubborn, practical resourcefulness is what we
+          bring to artificial intelligence.
+        </p>
+        <p class="muted">
+          BlackSwamp AI Solutions was founded in {site.location.label} with a
+          simple belief: AI should solve real problems for real businesses —
+          not chase hype. We work with companies across Toledo and beyond to
+          automate the work that drains their teams, advise them honestly on
+          where AI fits, and deploy private AI systems where data sensitivity
+          demands it.
+        </p>
+        <p class="muted">
+          We're engineers and consultants who prefer working software to
+          flashy demos, open tooling to lock-in, and straight answers to
+          sales pitches.
+        </p>
+      </div>
+      <div class="values">
+        <div class="card value">
+          <h3>🎯 Practical over hype</h3>
+          <p class="muted">
+            If AI isn't the right answer, we'll say so — and point you to what is.
+          </p>
+        </div>
+        <div class="card value">
+          <h3>🔓 Open over locked-in</h3>
+          <p class="muted">
+            We build on open, self-hostable tools like n8n so you always own
+            your systems.
+          </p>
+        </div>
+        <div class="card value">
+          <h3>🤝 Local roots, global reach</h3>
+          <p class="muted">
+            Proudly based in Toledo, Ohio — working with clients wherever
+            they are.
+          </p>
+        </div>
+        <div class="card value">
+          <h3>🔒 Private by default</h3>
+          <p class="muted">
+            Your data is yours. We design every solution with security and
+            privacy first.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-band card">
+        <div>
+          <h2>Let's build something that works</h2>
+          <p class="muted">
+            Reach out for a free consultation — we'll listen first, then show
+            you what's possible.
+          </p>
+        </div>
+        <a href="/contact/" class="btn btn-primary">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .values {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .value h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .value p {
+    margin: 0;
+    font-size: 0.93rem;
+  }
+
+  .cta-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background:
+      radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%),
+      var(--bg-card);
+  }
+
+  .cta-band h2 {
+    margin-bottom: 0.35rem;
+  }
+
+  .cta-band p {
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>
