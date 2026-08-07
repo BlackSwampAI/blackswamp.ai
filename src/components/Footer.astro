@@ -2,6 +2,7 @@
 import { site } from '../data/site';
 import { services } from '../data/services';
 import Logo from './Logo.astro';
+import SocialLinks from './SocialLinks.astro';
 ---
 
 <footer class="site-footer">
@@ -12,6 +13,7 @@ import Logo from './Logo.astro';
         AI automation, consulting, and on-prem solutions for businesses ready
         to work smarter. Based in {site.location.label}.
       </p>
+      <SocialLinks />
     </div>
     <div>
       <h4>Services</h4>
@@ -70,6 +72,10 @@ import Logo from './Logo.astro';
     max-width: 32ch;
     margin-top: 1rem;
     font-size: 0.92rem;
+  }
+
+  .footer-brand .social-links {
+    margin-top: 1.25rem;
   }
 
   .site-footer h4 {

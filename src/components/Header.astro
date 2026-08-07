@@ -1,6 +1,7 @@
 ---
 import { site } from '../data/site';
 import Logo from './Logo.astro';
+import SocialLinks from './SocialLinks.astro';
 
 const currentPath = Astro.url.pathname;
 
@@ -26,6 +27,7 @@ function isActive(href: string): boolean {
           </a>
         ))
       }
+      <SocialLinks />
       <a href="/contact/" class="btn btn-primary nav-cta">Get in Touch</a>
     </nav>
   </div>
@@ -85,6 +87,10 @@ function isActive(href: string): boolean {
     font-size: 0.85rem;
   }
 
+  .site-nav .social-links {
+    margin-left: 0.5rem;
+  }
+
   .nav-toggle {
     display: none;
     flex-direction: column;
@@ -127,6 +133,12 @@ function isActive(href: string): boolean {
     }
 
     .site-nav a:not(.btn) {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .site-nav .social-links {
+      margin-left: 0;
       padding: 0.75rem 0;
       border-bottom: 1px solid var(--border);
     }
