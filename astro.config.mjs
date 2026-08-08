@@ -1,12 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://blackswamp.ai',
-  output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  trailingSlash: 'always',
   integrations: [sitemap()],
 });

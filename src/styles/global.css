@@ -10,7 +10,6 @@
   --accent: #4ade80;
   --accent-strong: #22c55e;
   --accent-dark: #14532d;
-  --gold: #d4b46a;
   --radius: 12px;
   --radius-lg: 20px;
   --max-width: 1120px;
@@ -27,6 +26,19 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
@@ -61,6 +73,11 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 img {

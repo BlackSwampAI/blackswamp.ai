@@ -1,53 +1,63 @@
-# BlackSwamp AI Solutions — blackswamp.ai
+# BlackSwamp AI Solutions
 
-SSR website for BlackSwamp AI Solutions, an AI consulting and services company based in Toledo, Ohio.
+Marketing site for BlackSwamp AI Solutions, an AI and automation consultancy
+based in Toledo, Ohio.
 
 ## Stack
 
-- [Astro 7](https://astro.build) with server-side rendering (`output: 'server'`)
-- `@astrojs/node` adapter (standalone mode)
+- [Astro 7](https://astro.build) with static output
 - `@astrojs/sitemap` integration
-- No UI framework — pure Astro components + scoped CSS
+- Astro components and scoped CSS; no client UI framework
 
 ## Commands
 
 | Command           | Action                                       |
 | ----------------- | -------------------------------------------- |
-| `npm run dev`     | Start dev server at `localhost:4321`         |
-| `npm run build`   | Build to `dist/` (server + prerendered HTML) |
-| `npm run preview` | Preview the production build                 |
+| `npm run dev`     | Start the local development server      |
+| `npm run check`   | Run Astro and TypeScript diagnostics    |
+| `npm run build`   | Build the static site to `dist/`        |
+| `npm run preview` | Preview the production build locally    |
+
+Use Node.js 22.12 or newer. Install dependencies with `npm ci` for a
+reproducible setup.
 
 ## Structure
 
 - `src/data/site.ts` — site-wide config (branding, nav, contact info)
 - `src/data/services.ts` — service definitions (drives `/services/` and `/services/[slug]/`)
-- `src/layouts/Base.astro` — base layout with SEO/OG meta and JSON-LD
-- `src/components/` — Header, Footer, Logo, ServiceCard
+- `src/layouts/Base.astro` — shared document shell, metadata, and JSON-LD
+- `src/components/` — shared navigation, footer, branding, and service UI
 - `src/styles/global.css` — design tokens and shared styles
 
 ## Pages
 
-| Route                    | Rendering                          |
-| ------------------------ | ---------------------------------- |
-| `/`                      | SSR                                |
-| `/services/`             | SSR                                |
-| `/services/[slug]/`      | Prerendered from `services.ts`     |
-| `/about/`                | SSR                                |
-| `/contact/`              | SSR — handles form POST server-side |
-| `/404`                   | SSR                                |
+All routes are generated as static HTML. Service detail pages are generated
+from `src/data/services.ts` through Astro's `getStaticPaths()` API.
 
 ## Services
 
-1. AI Automation Workflows (n8n)
+1. Workflow Automation & AI (n8n)
 2. AI Consulting
-3. On-Prem AI Solutions
-4. Custom AI Development
+3. Private & On-Premises AI
+4. Custom AI Software
 
-To add a service, append an entry to `src/data/services.ts` — the services
-grid, footer links, contact form dropdown, and sitemap update automatically.
+To add a service, append an entry to `src/data/services.ts`. The service grids,
+footer links, detail route, and sitemap update from that shared data.
 
-## TODO before launch
+## Current product boundaries
 
-- Wire the contact form to real delivery (see `TODO` in `src/pages/contact.astro`)
-- Replace placeholder email (`hello@blackswamp.ai`) if different
-- Add real phone/social links to `src/data/site.ts` and Footer
+- Contact is intentionally email-only until a real form delivery service,
+  abuse protection, and privacy handling are implemented.
+- Confirm the email address and social profiles in `src/data/site.ts` before
+  launch.
+- The Open Graph image currently uses the square brand mark. Replace it
+  with a dedicated 1200×630 social card when one is available.
+
+## Before opening a pull request
+
+Run:
+
+```sh
+npm run check
+npm run build
+```

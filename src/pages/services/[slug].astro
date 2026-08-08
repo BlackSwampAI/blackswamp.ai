@@ -1,22 +1,19 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { services, getService } from '../../data/services';
-
-export const prerender = true;
+import { services, type Service } from '../../data/services';
 
 export async function getStaticPaths() {
   return services.map((service) => ({
     params: { slug: service.slug },
+    props: { service },
   }));
 }
 
-const { slug } = Astro.params;
-const service = getService(slug ?? '');
-
-if (!service) {
-  return Astro.redirect('/404');
+interface Props {
+  service: Service;
 }
 
+const { service } = Astro.props;
 const otherServices = services.filter((s) => s.slug !== service.slug);
 ---
 
@@ -46,7 +43,7 @@ const otherServices = services.filter((s) => s.slug !== service.slug);
               Let's talk about your goals and map out a plan — no obligation,
               no hype.
             </p>
-            <a href="/contact/" class="btn btn-primary">Book a Free Consultation</a>
+            <a href="/contact/" class="btn btn-primary">Start a Conversation</a>
           </div>
         </div>
         <aside class="service-side">

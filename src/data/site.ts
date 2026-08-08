@@ -4,7 +4,7 @@ export const site = {
   brandSub: 'AI SOLUTIONS',
   url: 'https://blackswamp.ai',
   description:
-    'BlackSwamp AI Solutions delivers AI automation workflows, AI consulting, and on-prem AI solutions for businesses in Toledo, Ohio and beyond.',
+    'BlackSwamp AI Solutions builds practical workflow automation, private AI systems, and custom AI software for organizations in Toledo, Ohio and beyond.',
   location: {
     city: 'Toledo',
     state: 'Ohio',
