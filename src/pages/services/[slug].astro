@@ -30,6 +30,11 @@ const otherServices = services.filter((s) => s.slug !== service.slug);
       </div>
       <p class="summary">{service.summary}</p>
 
+      <div class="ideal card">
+        <span class="eyebrow">A good fit for</span>
+        <p>{service.idealFor}</p>
+      </div>
+
       <div class="service-body">
         <div class="prose">
           {
@@ -37,13 +42,17 @@ const otherServices = services.filter((s) => s.slug !== service.slug);
               <p class="muted">{paragraph}</p>
             ))
           }
+          <h2>Common examples</h2>
+          <ul class="example-list">
+            {service.examples.map((example) => <li>{example}</li>)}
+          </ul>
           <div class="cta-inline card">
-            <h3>Ready to get started?</h3>
+            <h3>Start with the bottleneck</h3>
             <p class="muted">
-              Let's talk about your goals and map out a plan — no obligation,
-              no hype.
+              Tell us what is taking too long, creating errors, or making your
+              team uneasy about data. We will help define a sensible first step.
             </p>
-            <a href="/contact/" class="btn btn-primary">Start a Conversation</a>
+            <a href={`/contact/?subject=${encodeURIComponent(service.name)}`} class="btn btn-primary">Ask About {service.name}</a>
           </div>
         </div>
         <aside class="service-side">
@@ -124,6 +133,21 @@ const otherServices = services.filter((s) => s.slug !== service.slug);
     margin-bottom: 2.5rem;
   }
 
+  .ideal {
+    max-width: 70ch;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .ideal .eyebrow {
+    margin-bottom: 0.35rem;
+  }
+
+  .ideal p {
+    margin: 0;
+    color: var(--text-dim);
+  }
+
   .service-body {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
@@ -133,6 +157,26 @@ const otherServices = services.filter((s) => s.slug !== service.slug);
 
   .prose p {
     margin-bottom: 1.25rem;
+  }
+
+  .prose h2 {
+    font-size: 1.35rem;
+    margin-top: 2.25rem;
+  }
+
+  .example-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .example-list li {
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
   }
 
   .service-side {
@@ -193,6 +237,16 @@ const otherServices = services.filter((s) => s.slug !== service.slug);
     }
 
     .more-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .service-hero {
+      align-items: flex-start;
+    }
+
+    .example-list {
       grid-template-columns: 1fr;
     }
   }

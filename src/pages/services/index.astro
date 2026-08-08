@@ -2,50 +2,127 @@
 import Base from '../../layouts/Base.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import { services } from '../../data/services';
+import { startingOffers } from '../../data/content';
 ---
 
 <Base
-  title="Services"
-  description="Workflow automation, AI consulting, private AI deployments, and custom AI software from BlackSwamp AI Solutions in Toledo, Ohio."
+  title="AI & Automation Services"
+  description="Workflow automation, private AI systems, and practical AI strategy for small and midsize businesses in Toledo, Northwest Ohio, and beyond."
 >
-  <section class="section">
+  <section class="section intro">
     <div class="container">
       <span class="eyebrow">Services</span>
-      <h1 class="section-title">How we can help</h1>
+      <h1>Automate the work. Protect the data. Choose the right AI.</h1>
       <p class="section-lede">
-        Whether you need a single workflow automated or a full private AI
-        deployment, we bring the expertise to make it real — and the honesty
-        to tell you when it isn't the right move.
+        BlackSwamp helps small and midsize businesses improve real processes
+        with n8n automation, private AI infrastructure, and technically grounded
+        implementation guidance.
       </p>
-      <div class="grid grid-2 services-grid">
+      <div class="grid grid-3 services-grid">
         {services.map((service) => <ServiceCard service={service} />)}
       </div>
-      <div class="cta-row">
-        <p class="muted">Something else in mind? We do more than the above.</p>
-        <a href="/contact/" class="btn btn-primary">Tell Us What You Need</a>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container">
+      <span class="eyebrow">Ways to begin</span>
+      <h2 class="section-title">Start small enough to learn something</h2>
+      <p class="section-lede">
+        Each engagement begins with a defined question and a useful deliverable—not an open-ended promise to “do AI.”
+      </p>
+      <div class="offers-grid">
+        {
+          startingOffers.map((offer, index) => (
+            <article class="offer">
+              <span>0{index + 1}</span>
+              <div>
+                <h3>{offer.name}</h3>
+                <p class="muted">{offer.description}</p>
+                <p class="deliverable"><strong>You leave with:</strong> {offer.deliverable}</p>
+              </div>
+              <a href={offer.href} class="btn btn-ghost">Ask About It</a>
+            </article>
+          ))
+        }
       </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container cta-row">
+      <div>
+        <h2>Not sure which service fits?</h2>
+        <p class="muted">Describe the bottleneck, systems involved, and the outcome you want.</p>
+      </div>
+      <a href="/contact/" class="btn btn-primary">Tell Us What's Slowing You Down</a>
     </div>
   </section>
 </Base>
 
 <style>
+  .intro h1 {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    max-width: 18ch;
+  }
+
   .services-grid {
     margin-top: 2.5rem;
   }
 
+  .surface {
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .offers-grid {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-strong);
+  }
+
+  .offer {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .offer > span {
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .offer h3,
+  .offer p {
+    margin-bottom: 0.4rem;
+  }
+
+  .deliverable {
+    font-size: 0.9rem;
+  }
+
   .cta-row {
-    margin-top: 3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 2rem;
     flex-wrap: wrap;
-    border-top: 1px solid var(--border);
-    padding-top: 2rem;
   }
 
-  .cta-row p {
-    margin: 0;
-    font-size: 1.05rem;
+  .cta-row h2 { margin-bottom: 0.35rem; }
+  .cta-row p { margin: 0; }
+
+  @media (max-width: 720px) {
+    .offer {
+      grid-template-columns: 40px 1fr;
+    }
+
+    .offer .btn {
+      grid-column: 2;
+      justify-self: start;
+    }
   }
 </style>

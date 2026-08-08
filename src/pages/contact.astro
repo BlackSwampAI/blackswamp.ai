@@ -11,7 +11,7 @@ import { site } from '../data/site';
     <div class="container contact-grid">
       <div>
         <span class="eyebrow">Contact</span>
-        <h1 class="section-title">Let's talk about your business</h1>
+        <h1 class="section-title">Tell us what's slowing you down</h1>
         <p class="section-lede">
           Tell us what is slowing you down, what you have already tried, and
           what a useful outcome would look like. We will start with the problem
@@ -31,7 +31,7 @@ import { site } from '../data/site';
 
       <div class="contact-card card">
         <span class="eyebrow">Start here</span>
-        <h2>Email us directly</h2>
+        <h2 id="contact-heading">Email us directly</h2>
         <p class="muted">
           A useful first note includes the process you want to improve, the
           tools involved, and any security or hosting requirements. Rough notes
@@ -40,6 +40,8 @@ import { site } from '../data/site';
         <a
           href={`mailto:${site.email}?subject=Project%20inquiry`}
           class="btn btn-primary"
+          id="contact-email"
+          data-email={site.email}
         >
           Email {site.email}
         </a>
@@ -101,3 +103,15 @@ import { site } from '../data/site';
     }
   }
 </style>
+
+<script>
+  const emailLink = document.querySelector<HTMLAnchorElement>('#contact-email');
+  const heading = document.querySelector<HTMLElement>('#contact-heading');
+  const topic = new URLSearchParams(window.location.search).get('subject')?.trim();
+
+  if (emailLink && topic) {
+    const email = emailLink.dataset.email;
+    emailLink.href = `mailto:${email}?subject=${encodeURIComponent(topic)}`;
+    if (heading) heading.textContent = `Ask about ${topic}`;
+  }
+</script>

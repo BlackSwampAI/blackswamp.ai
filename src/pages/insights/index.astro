@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import { insights } from '../../data/insights';
+---
+
+<Base
+  title="Practical AI & Automation Insights"
+  description="Plain-language guidance on workflow automation, n8n, private AI, and choosing useful AI projects for small and midsize businesses."
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Insights</span>
+      <h1 class="section-title">Useful guidance before you buy anything</h1>
+      <p class="section-lede">
+        Practical notes on automation, private infrastructure, and evaluating
+        AI without letting the technology get ahead of the business problem.
+      </p>
+      <div class="insights-grid">
+        {
+          insights.map((article) => (
+            <a href={`/insights/${article.slug}/`} class="insight card">
+              <div class="insight-heading">
+                <div class="meta">
+                  <span>{article.category}</span>
+                  <span>{article.readTime}</span>
+                </div>
+                <h2>{article.title}</h2>
+              </div>
+              <p class="muted">{article.description}</p>
+              <strong>Read the guide →</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .insights-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .insight {
+    color: inherit;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr) auto;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .insight:hover {
+    text-decoration: none;
+    border-color: var(--accent-dark);
+  }
+
+  .insight-heading h2 {
+    font-size: 1.25rem;
+    margin: 0.65rem 0 0;
+  }
+
+  .insight p {
+    margin: 0;
+  }
+
+  .insight > strong,
+  .meta span:first-child {
+    color: var(--accent);
+  }
+
+  .insight > strong {
+    white-space: nowrap;
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .meta span + span {
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 900px) {
+    .insight {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .insight > strong {
+      margin-top: 0.5rem;
+    }
+  }
+</style>

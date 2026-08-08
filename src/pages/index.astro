@@ -2,6 +2,14 @@
 import Base from '../layouts/Base.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import { services } from '../data/services';
+import {
+  commonUseCases,
+  faqs,
+  industries,
+  processSteps,
+  startingOffers,
+} from '../data/content';
+import { insights } from '../data/insights';
 import { site } from '../data/site';
 ---
 
@@ -9,101 +17,181 @@ import { site } from '../data/site';
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">AI &amp; Automation Consulting · {site.location.label}</p>
-        <h1 class="hero-title">
-          <span class="hero-brand">{site.brandTop}</span>
-          <span class="hero-sub">{site.brandSub}</span>
-        </h1>
+        <p class="eyebrow">Based in {site.location.label} · Serving Northwest Ohio &amp; beyond</p>
+        <h1>Practical AI and automation for businesses that value privacy.</h1>
         <p class="hero-lede">
-          We help organizations turn useful AI ideas into dependable systems:
-          workflow automation that saves time, clear technical guidance, and
-          private deployments built around your data requirements.
+          Automate repetitive work. Keep sensitive data private. Get straight
+          answers about where AI fits—and where it does not.
+        </p>
+        <p class="hero-detail">
+          BlackSwamp designs n8n workflows, private AI systems, and custom
+          integrations for small and midsize businesses.
         </p>
         <div class="hero-actions">
-          <a href="/contact/" class="btn btn-primary">Start a Conversation</a>
+          <a href="/contact/" class="btn btn-primary">Tell Us What's Slowing You Down</a>
           <a href="/services/" class="btn btn-ghost">Explore Services</a>
-          <a
-            href={`mailto:${site.email}`}
-            class="hero-email"
-            aria-label={`Email us at ${site.email}`}
-            title={site.email}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-              <path d="m22 7-10 6L2 7"></path>
-            </svg>
-          </a>
         </div>
       </div>
       <div class="hero-visual">
-        <img
-          src="/mark.png"
-          alt=""
-          class="hero-mark"
-          width="560"
-          height="560"
-        />
-        <ul class="hero-proof">
-          <li><strong>n8n</strong> workflow automation</li>
-          <li><strong>Private</strong> &amp; on-premises AI</li>
-          <li><strong>Practical</strong> technology guidance</li>
+        <img src="/mark.png" alt="" class="hero-mark" width="560" height="560" />
+        <ul class="hero-proof" aria-label="Core capabilities">
+          <li><strong>Automate</strong> the work</li>
+          <li><strong>Protect</strong> the data</li>
+          <li><strong>Choose</strong> the right AI</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" aria-labelledby="services-heading">
     <div class="container">
-      <span class="eyebrow">What we do</span>
-      <h2 class="section-title">Services built for real businesses</h2>
+      <span class="eyebrow">Three ways we help</span>
+      <h2 id="services-heading" class="section-title">Start with the business problem</h2>
       <p class="section-lede">
-        From automating a single workflow to deploying private AI across your
-        organization — we meet you where you are.
+        The right solution may be a workflow, a private model, a focused
+        integration, or no AI at all. We help you make that call and build what
+        earns its place.
       </p>
-      <div class="grid grid-2 services-grid">
+      <div class="grid grid-3 services-grid">
         {services.map((service) => <ServiceCard service={service} />)}
       </div>
     </div>
   </section>
 
-  <section class="section why">
-    <div class="container grid why-grid">
+  <section class="section surface" aria-labelledby="use-cases-heading">
+    <div class="container split-grid">
+      <div>
+        <span class="eyebrow">Problems we solve</span>
+        <h2 id="use-cases-heading" class="section-title">Useful work, not novelty demos</h2>
+        <p class="section-lede">
+          We focus on processes where better information flow, careful AI
+          assistance, or private access to knowledge can produce a measurable
+          operational improvement.
+        </p>
+      </div>
+      <ul class="use-case-list">
+        {commonUseCases.map((useCase) => <li>{useCase}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="industries-heading">
+    <div class="container">
+      <span class="eyebrow">Who we help</span>
+      <h2 id="industries-heading" class="section-title">Built for practical operators</h2>
+      <p class="section-lede">
+        Especially useful for organizations with lean teams, fragmented tools,
+        document-heavy work, or data that deserves more care.
+      </p>
+      <div class="grid grid-3 industry-grid">
+        {
+          industries.map((industry) => (
+            <article class="industry card">
+              <h3>{industry.name}</h3>
+              <p class="muted">{industry.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface" aria-labelledby="offers-heading">
+    <div class="container">
+      <span class="eyebrow">Low-risk starting points</span>
+      <h2 id="offers-heading" class="section-title">You do not need a giant AI initiative</h2>
+      <p class="section-lede">
+        Begin with enough structure to make a good decision, then expand only
+        when the evidence supports it.
+      </p>
+      <div class="grid grid-3 offers-grid">
+        {
+          startingOffers.map((offer) => (
+            <article class="offer card">
+              <span class="offer-label">{offer.label}</span>
+              <h3>{offer.name}</h3>
+              <p class="muted">{offer.description}</p>
+              <p class="deliverable"><strong>You leave with:</strong> {offer.deliverable}</p>
+              <a href={offer.href} class="text-link">Ask about this offer →</a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="process-heading">
+    <div class="container">
+      <span class="eyebrow">How we work</span>
+      <h2 id="process-heading" class="section-title">Discover → Prioritize → Pilot → Operate</h2>
+      <div class="process-grid">
+        {
+          processSteps.map((step) => (
+            <article class="process-step">
+              <span>{step.number}</span>
+              <h3>{step.name}</h3>
+              <p class="muted">{step.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface" aria-labelledby="why-heading">
+    <div class="container split-grid why-grid">
       <div>
         <span class="eyebrow">Why BlackSwamp</span>
-        <h2 class="section-title">Deep roots. Clear water.</h2>
+        <h2 id="why-heading" class="section-title">Local roots. Technical depth. Clear advice.</h2>
         <p class="muted">
-          Named for the Great Black Swamp that once covered northwest Ohio, we
-          bring the same grit and resourcefulness this region was built on —
-          now applied to the technology reshaping how work gets done.
+          Named for the Great Black Swamp that shaped Northwest Ohio, we bring
+          the region's practical resourcefulness to technology that can be
+          difficult to evaluate and easy to oversell.
         </p>
-        <ul class="check-list">
-          <li>Practical roadmaps, not pie-in-the-sky decks</li>
-          <li>Open, self-hostable tooling designed for portability</li>
-          <li>Privacy-conscious architecture for sensitive workloads</li>
-          <li>Local partner in Toledo, working with clients everywhere</li>
-        </ul>
       </div>
-      <div class="stats">
-        <div class="card stat">
-          <strong>Hours back, weekly</strong>
-          <span class="muted">Automation that runs 24/7 so your team doesn't have to.</span>
-        </div>
-        <div class="card stat">
-          <strong>Keep control of your data</strong>
-          <span class="muted">Private infrastructure options for sensitive workloads.</span>
-        </div>
-        <div class="card stat">
-          <strong>Avoid unnecessary lock-in</strong>
-          <span class="muted">Open standards and portable architecture where practical.</span>
-        </div>
+      <div class="principles">
+        <div><strong>Problem first</strong><span>AI is a tool, not the starting requirement.</span></div>
+        <div><strong>Privacy by design</strong><span>Data boundaries shape the architecture from day one.</span></div>
+        <div><strong>Human control</strong><span>Important decisions keep appropriate review and accountability.</span></div>
+        <div><strong>Portable choices</strong><span>Open, self-hostable tools are preferred where they make sense.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="insights-heading">
+    <div class="container">
+      <span class="eyebrow">Field notes</span>
+      <h2 id="insights-heading" class="section-title">Useful guidance before you buy anything</h2>
+      <div class="grid grid-3 insights-grid">
+        {
+          insights.slice(0, 3).map((article) => (
+            <a href={`/insights/${article.slug}/`} class="insight card">
+              <span>{article.category}</span>
+              <h3>{article.title}</h3>
+              <p class="muted">{article.description}</p>
+              <strong>Read the guide →</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface" aria-labelledby="faq-heading">
+    <div class="container faq-wrap">
+      <div>
+        <span class="eyebrow">Common questions</span>
+        <h2 id="faq-heading" class="section-title">A few straight answers</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p class="muted">{faq.answer}</p>
+            </details>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -112,13 +200,13 @@ import { site } from '../data/site';
     <div class="container">
       <div class="cta-band card">
         <div>
-          <h2>Not sure where AI fits?</h2>
+          <span class="eyebrow">Start with the bottleneck</span>
+          <h2>What keeps wasting your team's time?</h2>
           <p class="muted">
-            Tell us about your workflows. We'll show you — honestly — where
-            automation and AI will pay off, and where they won't.
+            Send the rough version. We will help turn it into a practical next step.
           </p>
         </div>
-        <a href="/contact/" class="btn btn-primary">Start the Conversation</a>
+        <a href="/contact/" class="btn btn-primary">Tell Us What's Slowing You Down</a>
       </div>
     </div>
   </section>
@@ -126,94 +214,49 @@ import { site } from '../data/site';
 
 <style>
   .hero {
-    padding: 6rem 0 4rem;
-    position: relative;
+    padding: 6rem 0 4.5rem;
+    border-bottom: 1px solid var(--border);
     overflow: hidden;
   }
 
-  .hero::after {
-    content: '';
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
-  }
-
-  .hero-grid {
+  .hero-grid,
+  .split-grid,
+  .faq-wrap {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     gap: 3.5rem;
     align-items: center;
   }
 
-  .hero-title {
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 1.25rem;
-  }
-
-  .hero-brand {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    letter-spacing: 0.02em;
-    line-height: 1;
-    background: linear-gradient(120deg, var(--text) 55%, var(--accent) 90%);
+  .hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    max-width: 17ch;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(120deg, var(--text) 60%, var(--accent) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  .hero-sub {
-    font-size: clamp(0.95rem, 2vw, 1.35rem);
-    font-weight: 700;
-    letter-spacing: 0.55em;
-    color: var(--accent);
-    margin-top: 0.5rem;
+  .hero-lede {
+    color: var(--text);
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    max-width: 54ch;
   }
 
-  .hero-lede {
-    font-size: clamp(1.05rem, 2vw, 1.2rem);
+  .hero-detail {
     color: var(--text-dim);
-    max-width: 54ch;
+    max-width: 58ch;
   }
 
   .hero-actions {
     display: flex;
-    align-items: center;
-    gap: 0.9rem;
     flex-wrap: wrap;
+    gap: 0.9rem;
     margin-top: 1.75rem;
   }
 
-  .hero-email {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 999px;
-    border: 1px solid var(--border-strong);
-    color: var(--text-dim);
-    background: rgba(255, 255, 255, 0.02);
-    margin-left: 0.15rem;
-    transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
-  }
-
-  .hero-email:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    text-decoration: none;
-    transform: translateY(-1px);
-  }
-
-  .hero-email svg {
-    width: 20px;
-    height: 20px;
-  }
-
   .hero-visual {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,7 +266,6 @@ import { site } from '../data/site';
     width: min(400px, 88%);
     height: auto;
     filter: drop-shadow(0 0 70px rgba(34, 197, 94, 0.28));
-    color: transparent;
   }
 
   .hero-proof {
@@ -238,51 +280,143 @@ import { site } from '../data/site';
   }
 
   .hero-proof li {
-    background: rgba(19, 28, 22, 0.85);
+    background: rgba(19, 28, 22, 0.9);
     border: 1px solid var(--border);
     border-radius: 999px;
     padding: 0.5rem 1rem;
-    font-size: 0.85rem;
     color: var(--text-dim);
-    backdrop-filter: blur(8px);
+    font-size: 0.85rem;
   }
 
-  .hero-proof strong {
+  .hero-proof strong,
+  .text-link,
+  .insight strong {
     color: var(--accent);
-    font-weight: 700;
   }
 
-  .services-grid {
-    margin-top: 2rem;
-  }
-
-  .why {
+  .surface {
     background: var(--bg-raised);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
   }
 
-  .why-grid {
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: start;
-    gap: 3rem;
+  .services-grid,
+  .industry-grid,
+  .offers-grid,
+  .insights-grid {
+    margin-top: 2rem;
   }
 
-  .stats {
+  .use-case-list {
     display: grid;
-    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
   }
 
-  .stat strong {
-    display: block;
-    font-size: 1.05rem;
-    margin-bottom: 0.35rem;
+  .use-case-list li {
+    color: var(--text-dim);
+    padding: 1rem 1.1rem 1rem 2.7rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .use-case-list li:nth-child(odd) { border-right: 1px solid var(--border); }
+  .use-case-list li:nth-last-child(-n + 2) { border-bottom: 0; }
+  .use-case-list li::before {
+    content: '↗';
+    position: absolute;
+    left: 1rem;
     color: var(--accent);
+    font-weight: 700;
   }
 
-  .stat span {
-    font-size: 0.92rem;
+  .industry p,
+  .offer p,
+  .insight p {
+    margin-bottom: 0;
   }
+
+  .industry h3,
+  .offer h3,
+  .insight h3 {
+    font-size: 1.1rem;
+  }
+
+  .offer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .offer-label,
+  .insight > span {
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.65rem;
+  }
+
+  .deliverable {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  .offer .text-link {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-strong);
+  }
+
+  .process-step {
+    padding: 1.5rem 1.5rem 0 0;
+    border-right: 1px solid var(--border);
+    min-height: 180px;
+  }
+
+  .process-step + .process-step { padding-left: 1.5rem; }
+  .process-step:last-child { border-right: 0; }
+  .process-step > span { color: var(--accent); font-weight: 800; font-size: 0.8rem; }
+  .process-step h3 { margin-top: 1.25rem; }
+  .process-step p { font-size: 0.92rem; margin: 0; }
+
+  .why-grid { align-items: start; }
+  .principles { display: grid; gap: 0; border-top: 1px solid var(--border); }
+  .principles > div { display: grid; grid-template-columns: 0.65fr 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  .principles strong { color: var(--accent); }
+  .principles span { color: var(--text-dim); }
+
+  .insight {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .insight:hover { text-decoration: none; border-color: var(--accent-dark); }
+  .insight strong { margin-top: auto; padding-top: 1rem; font-size: 0.9rem; }
+
+  .faq-wrap { align-items: start; }
+  .faq-list { border-top: 1px solid var(--border-strong); }
+  details { border-bottom: 1px solid var(--border); }
+  summary { cursor: pointer; padding: 1.1rem 2rem 1.1rem 0; font-weight: 700; position: relative; }
+  summary::marker { color: var(--accent); }
+  details p { padding: 0 0 1.1rem; margin: 0; }
 
   .cta-band {
     display: flex;
@@ -290,40 +424,32 @@ import { site } from '../data/site';
     justify-content: space-between;
     gap: 2rem;
     flex-wrap: wrap;
-    background:
-      radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%),
-      var(--bg-card);
+    background: radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%), var(--bg-card);
   }
 
-  .cta-band h2 {
-    margin-bottom: 0.35rem;
-  }
-
-  .cta-band p {
-    margin: 0;
-    max-width: 52ch;
-  }
+  .cta-band h2 { margin-bottom: 0.35rem; }
+  .cta-band p { margin: 0; max-width: 52ch; }
 
   @media (max-width: 900px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-
-    .why-grid {
-      grid-template-columns: 1fr;
-    }
+    .hero-grid,
+    .split-grid,
+    .faq-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .process-step:nth-child(2) { border-right: 0; }
   }
 
   @media (max-width: 640px) {
-    .hero {
-      padding: 4rem 0 3rem;
-    }
-
-    .hero-proof {
-      flex-direction: column;
-      align-items: stretch;
-      text-align: center;
-    }
+    .hero { padding: 4rem 0 3rem; }
+    .hero h1 { font-size: clamp(2.35rem, 12vw, 3.4rem); }
+    .hero-proof { flex-direction: column; text-align: center; align-items: stretch; }
+    .use-case-list,
+    .process-grid { grid-template-columns: 1fr; }
+    .use-case-list li,
+    .use-case-list li:nth-child(odd),
+    .use-case-list li:nth-last-child(-n + 2) { border-right: 0; border-bottom: 1px solid var(--border); }
+    .use-case-list li:last-child { border-bottom: 0; }
+    .process-step,
+    .process-step + .process-step { border-right: 0; border-bottom: 1px solid var(--border); padding: 1.25rem 0; min-height: 0; }
+    .principles > div { grid-template-columns: 1fr; gap: 0.25rem; }
   }
 </style>

@@ -4,7 +4,7 @@ export const site = {
   brandSub: 'AI SOLUTIONS',
   url: 'https://blackswamp.ai',
   description:
-    'BlackSwamp AI Solutions builds practical workflow automation, private AI systems, and custom AI software for organizations in Toledo, Ohio and beyond.',
+    'Practical AI and automation for privacy-conscious small and midsize businesses in Toledo, Northwest Ohio, and beyond.',
   location: {
     city: 'Toledo',
     state: 'Ohio',
@@ -22,6 +22,7 @@ export const site = {
   nav: [
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services/' },
+    { label: 'Insights', href: '/insights/' },
     { label: 'About', href: '/about/' },
     { label: 'Contact', href: '/contact/' },
   ],

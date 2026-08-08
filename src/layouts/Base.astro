@@ -55,8 +55,14 @@ const socialImage = new URL('/mark.png', site.url);
       '@type': 'Organization',
       name: site.name,
       url: site.url,
+      logo: new URL('/logo.png', site.url),
       email: site.email,
       description: site.description,
+      sameAs: site.social.map((profile) => profile.href),
+      areaServed: [
+        { '@type': 'City', name: site.location.city },
+        { '@type': 'AdministrativeArea', name: 'Northwest Ohio' },
+      ],
       address: {
         '@type': 'PostalAddress',
         addressLocality: site.location.city,

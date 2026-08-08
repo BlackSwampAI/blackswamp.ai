@@ -1,88 +1,99 @@
 export interface Service {
   slug: string;
   name: string;
+  shortName: string;
   tagline: string;
   summary: string;
   icon: string;
   bullets: string[];
   details: string[];
+  examples: string[];
+  idealFor: string;
 }
 
 export const services: Service[] = [
   {
-    slug: 'ai-automation-workflows',
-    name: 'Workflow Automation & AI',
+    slug: 'workflow-automation',
+    name: 'Workflow Automation',
+    shortName: 'Automate the work',
     tagline: 'Give repetitive work a reliable way to run itself.',
     summary:
-      'We design and maintain n8n workflows that connect your apps, data, and AI tools so repetitive work runs consistently—with the right human checks.',
+      'We design monitored n8n workflows that connect your apps, documents, and teams—with AI added only where it improves the process.',
     icon: '⚙️',
     bullets: [
       'n8n workflow design, implementation, and hosting',
-      'AI-assisted classification, extraction, and drafting',
-      'CRM, ERP, email, and document automation',
+      'Email, document, CRM, and ERP automation',
+      'AI-assisted extraction, classification, and drafting',
       'Human approvals, monitoring, and error handling',
     ],
     details: [
-      'Copying data between systems, chasing approvals, and sending routine follow-ups all consume time. We map the process first, then build a monitored n8n workflow around the parts that should be automated.',
-      'Because n8n is self-hostable, workflows can run in an environment you control. We can help operate them or prepare them for your own infrastructure, depending on your security and ownership needs.',
-      'Where it adds measurable value, we integrate language models for document extraction, classification, drafting, and decision support—with human review wherever mistakes carry real consequences.',
+      'Repetitive work rarely lives in one system. Information arrives by email, gets copied into a spreadsheet or CRM, waits for approval, and triggers another round of follow-up. We map the full process before choosing what to automate.',
+      'The result is a maintainable workflow with clear inputs, human checkpoints, error paths, and visibility into what ran. Because n8n is self-hostable, it can also fit organizations that want greater control over where their automations operate.',
+      'Language models can help with unstructured work such as reading documents, categorizing requests, or preparing a first draft. We use them as one component in a dependable process—not as an unsupervised replacement for business judgment.',
     ],
+    examples: [
+      'Route inbound requests and create follow-up tasks',
+      'Extract order or invoice details from documents',
+      'Synchronize records across business systems',
+      'Prepare recurring reports and notifications',
+    ],
+    idealFor:
+      'Teams losing hours to copying data, chasing approvals, handling routine documents, or keeping multiple systems in sync.',
   },
   {
-    slug: 'ai-consulting',
-    name: 'AI Consulting',
-    tagline: 'Find the use cases worth pursuing—and skip the ones that are not.',
-    summary:
-      'Practical, vendor-neutral guidance on AI strategy, use-case discovery, tool selection, and rollout — grounded in real ROI, not hype.',
-    icon: '🧭',
-    bullets: [
-      'AI readiness & opportunity assessments',
-      'Use-case discovery and ROI modeling',
-      'Model, tool & vendor selection',
-      'AI governance, risk & policy guidance',
-    ],
-    details: [
-      'AI projects go off course when the use case, tool, and expectations do not line up. We begin with the business goal and work backward to the technology.',
-      'You get an honest assessment of where AI will move the needle, where it will not, and a prioritized roadmap with realistic cost and timeline estimates.',
-      'We stay vendor-neutral. Whether the right answer is an off-the-shelf product, an open-source model, or a custom build, our only incentive is your outcome.',
-    ],
-  },
-  {
-    slug: 'on-prem-ai-solutions',
+    slug: 'private-ai',
     name: 'Private & On-Premises AI',
+    shortName: 'Protect the data',
     tagline: 'AI systems designed around your data boundaries.',
     summary:
-      'Self-hosted language models, retrieval systems, and automation deployed on your hardware or private cloud for sensitive workloads.',
+      'We build private language-model and retrieval systems on infrastructure you control for sensitive internal knowledge and workflows.',
     icon: '🔒',
     bullets: [
-      'Self-hosted & open-source LLM deployments',
-      'Private RAG over your documents & data',
-      'Air-gapped and compliance-sensitive environments',
-      'GPU hardware and infrastructure guidance',
+      'Self-hosted and open-model deployments',
+      'Private search and RAG over internal knowledge',
+      'On-premises, private-cloud, and isolated environments',
+      'Infrastructure sizing, access controls, and operations',
     ],
     details: [
-      'Some workloads cannot use public AI services. We deploy open models inside infrastructure you control so the system can respect your organization’s data-handling requirements.',
-      'From private assistants grounded in internal documents to semantic search across large record collections, we build retrieval systems around your domain and access rules.',
-      'We handle the full stack: hardware sizing, model selection, serving infrastructure, security hardening, and ongoing maintenance.',
+      'Public AI services are not appropriate for every dataset or workflow. We start by identifying the actual data boundary, access requirements, and performance needs rather than assuming that on-premises is automatically the right answer.',
+      'When private infrastructure is justified, we can deploy open models and retrieval systems inside an environment you control. Common applications include internal knowledge assistants, semantic search, document analysis, and AI-assisted operations.',
+      'A useful private system requires more than installing a model. We account for hardware, model serving, permissions, retrieval quality, evaluation, monitoring, and the operational plan your team will need after launch.',
     ],
+    examples: [
+      'Search internal policies and technical records',
+      'Build an assistant grounded in approved documents',
+      'Analyze sensitive files without public AI services',
+      'Evaluate private-cloud versus local infrastructure',
+    ],
+    idealFor:
+      'Organizations with sensitive records, contractual data restrictions, private knowledge bases, or a strong preference for infrastructure ownership.',
   },
   {
-    slug: 'custom-ai-development',
-    name: 'Custom AI Software',
-    tagline: 'Purpose-built AI systems for your exact problem.',
+    slug: 'ai-strategy-implementation',
+    name: 'AI Strategy & Implementation',
+    shortName: 'Choose the right AI',
+    tagline: 'Move from scattered ideas to a practical plan.',
     summary:
-      'When off-the-shelf falls short, we engineer custom AI applications — agents, integrations, and products tailored to your workflows and data.',
-    icon: '🛠️',
+      'We help SMBs prioritize use cases, evaluate tools, run focused pilots, and build custom integrations when off-the-shelf products fall short.',
+    icon: '🧭',
     bullets: [
-      'AI agents & copilots for your team',
-      'LLM integrations into existing products',
-      'Evaluation, prompt design, and model adaptation',
-      'APIs, dashboards, and internal tools',
+      'AI readiness and opportunity assessments',
+      'Use-case prioritization and ROI modeling',
+      'Model, vendor, and architecture selection',
+      'Proofs of concept and custom integrations',
     ],
     details: [
-      'Sometimes the right solution does not exist yet. We build it — from AI copilots embedded in your internal tools to customer-facing features powered by language models.',
-      'We design for production from the start, with evaluation, monitoring, error handling, and documentation that make the system maintainable after launch.',
-      'We integrate with the systems you already run rather than replacing them, keeping adoption friction low and value high.',
+      'AI projects go off course when a promising demo gets mistaken for a business case. We begin with the outcome, the people involved, the available data, and the cost of getting an answer wrong.',
+      'You receive a prioritized path forward: what to test, what to buy, what may need to be built, and what should be left alone. Recommendations remain grounded in your constraints rather than a preferred vendor or model.',
+      'When a pilot makes sense, we can carry it through implementation. That can include connecting an existing product, building an internal tool, evaluating model quality, or developing a custom application around your workflow.',
     ],
+    examples: [
+      'Prioritize AI opportunities across the business',
+      'Compare vendors, models, and deployment options',
+      'Prototype a focused internal or customer-facing tool',
+      'Create practical AI usage and review guidelines',
+    ],
+    idealFor:
+      'Leaders who know AI may matter to their business but need a technically grounded plan before committing budget or exposing data.',
   },
 ];

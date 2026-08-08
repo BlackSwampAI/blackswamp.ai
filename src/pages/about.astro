@@ -1,67 +1,89 @@
 ---
 import Base from '../layouts/Base.astro';
+import { processSteps } from '../data/content';
 import { site } from '../data/site';
 ---
 
 <Base
   title="About"
-  description={`BlackSwamp AI Solutions is an AI consulting and services company based in ${site.location.label}, named for the Great Black Swamp of northwest Ohio.`}
+  description={`BlackSwamp AI Solutions is a practical AI and automation consultancy based in ${site.location.label}, serving privacy-conscious small and midsize businesses.`}
 >
   <section class="section">
     <div class="container about-grid">
       <div>
-        <span class="eyebrow">About Us</span>
-        <h1 class="section-title">Named for the swamp.<br />Built for what's next.</h1>
-        <p class="muted">
-          Northwest Ohio was once covered by the Great Black Swamp — a vast,
-          untamed wilderness that early settlers called impassable. The people
-          of this region drained it, farmed it, and built thriving cities on
-          top of it. That same stubborn, practical resourcefulness is what we
-          bring to artificial intelligence.
+        <span class="eyebrow">About BlackSwamp</span>
+        <h1>Local roots.<br />Practical technology.</h1>
+      </div>
+      <div class="story">
+        <p>
+          BlackSwamp AI Solutions was founded in {site.location.label} around a
+          simple belief: artificial intelligence should solve a recognizable
+          business problem, respect the data involved, and remain understandable
+          enough to operate after the demo ends.
         </p>
         <p class="muted">
-          BlackSwamp AI Solutions was founded in {site.location.label} with a
-          simple belief: AI should solve real problems for real businesses —
-          not chase hype. We work with companies across Toledo and beyond to
-          automate the work that drains their teams, advise them honestly on
-          where AI fits, and deploy private AI systems where data sensitivity
-          demands it.
+          We help small and midsize businesses automate repetitive work,
+          evaluate a fast-changing AI market, and build private systems when
+          sensitive information should not flow through a public service.
         </p>
         <p class="muted">
-          We're engineers and consultants who prefer working software to
-          flashy demos, open tooling to lock-in, and straight answers to
-          sales pitches.
+          The name comes from the Great Black Swamp that shaped Northwest Ohio.
+          It is a reminder to approach difficult terrain with patience,
+          resourcefulness, and respect for the conditions on the ground.
         </p>
       </div>
-      <div class="values">
-        <div class="card value">
-          <h3>🎯 Practical over hype</h3>
-          <p class="muted">
-            If AI isn't the right answer, we'll say so — and point you to what is.
-          </p>
-        </div>
-        <div class="card value">
-          <h3>🔓 Open over locked-in</h3>
-          <p class="muted">
-            We build on open, self-hostable tools like n8n so you always own
-            your systems.
-          </p>
-        </div>
-        <div class="card value">
-          <h3>🤝 Local roots, global reach</h3>
-          <p class="muted">
-            Proudly based in Toledo, Ohio — working with clients wherever
-            they are.
-          </p>
-        </div>
-        <div class="card value">
-          <h3>🔒 Private by default</h3>
-          <p class="muted">
-            Your data is yours. We design every solution with security and
-            privacy first.
-          </p>
-        </div>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container">
+      <span class="eyebrow">What you can expect</span>
+      <h2 class="section-title">A direct, technically grounded partner</h2>
+      <div class="values-grid">
+        <article class="card">
+          <span>01</span>
+          <h3>Problem before platform</h3>
+          <p class="muted">We define the operational goal before choosing a model, vendor, or automation tool.</p>
+        </article>
+        <article class="card">
+          <span>02</span>
+          <h3>Privacy before convenience</h3>
+          <p class="muted">Data sensitivity, access, retention, and ownership shape the architecture from the beginning.</p>
+        </article>
+        <article class="card">
+          <span>03</span>
+          <h3>Evidence before expansion</h3>
+          <p class="muted">Focused pilots create a basis for deciding whether to proceed, change direction, or stop.</p>
+        </article>
+        <article class="card">
+          <span>04</span>
+          <h3>Ownership after launch</h3>
+          <p class="muted">Clear documentation, monitoring, and handoff matter as much as getting the first version working.</p>
+        </article>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container approach-grid">
+      <div>
+        <span class="eyebrow">The working style</span>
+        <h2 class="section-title">Small steps, complete thinking</h2>
+        <p class="section-lede">
+          The first engagement should reduce uncertainty—not create a larger,
+          more expensive commitment before the problem is understood.
+        </p>
+      </div>
+      <ol>
+        {
+          processSteps.map((step) => (
+            <li>
+              <span>{step.number}</span>
+              <div><strong>{step.name}</strong><p class="muted">{step.description}</p></div>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
@@ -69,39 +91,84 @@ import { site } from '../data/site';
     <div class="container">
       <div class="cta-band card">
         <div>
-          <h2>Let's build something that works</h2>
-          <p class="muted">
-            Tell us what you are trying to improve. We will listen first, then
-            outline a practical next step.
-          </p>
+          <span class="eyebrow">Have a process in mind?</span>
+          <h2>Bring us the rough version</h2>
+          <p class="muted">We will help you determine whether automation or AI deserves the next step.</p>
         </div>
-        <a href="/contact/" class="btn btn-primary">Get in Touch</a>
+        <a href="/contact/" class="btn btn-primary">Tell Us What's Slowing You Down</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .about-grid {
+  .about-grid,
+  .approach-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 3.5rem;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 4rem;
     align-items: start;
   }
 
-  .values {
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .story > p:first-child {
+    color: var(--text);
+    font-size: 1.2rem;
+  }
+
+  .surface {
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .values-grid {
     display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    margin-top: 2rem;
   }
 
-  .value h3 {
-    font-size: 1.05rem;
-    margin-bottom: 0.4rem;
+  .values-grid article > span {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 800;
   }
 
-  .value p {
+  .values-grid h3 {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .values-grid p {
     margin: 0;
-    font-size: 0.93rem;
+  }
+
+  .approach-grid ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--border-strong);
+  }
+
+  .approach-grid li {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .approach-grid li > span {
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .approach-grid li p {
+    margin: 0.2rem 0 0;
   }
 
   .cta-band {
@@ -110,24 +177,18 @@ import { site } from '../data/site';
     justify-content: space-between;
     gap: 2rem;
     flex-wrap: wrap;
-    background:
-      radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%),
-      var(--bg-card);
+    background: radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%), var(--bg-card);
   }
 
-  .cta-band h2 {
-    margin-bottom: 0.35rem;
+  .cta-band h2 { margin-bottom: 0.35rem; }
+  .cta-band p { margin: 0; }
+
+  @media (max-width: 800px) {
+    .about-grid,
+    .approach-grid { grid-template-columns: 1fr; gap: 2rem; }
   }
 
-  .cta-band p {
-    margin: 0;
-    max-width: 52ch;
-  }
-
-  @media (max-width: 900px) {
-    .about-grid {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
+  @media (max-width: 560px) {
+    .values-grid { grid-template-columns: 1fr; }
   }
 </style>

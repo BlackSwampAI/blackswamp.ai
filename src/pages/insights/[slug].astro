@@ -1,0 +1,181 @@
+---
+import Base from '../../layouts/Base.astro';
+import { insights, type Insight } from '../../data/insights';
+
+export function getStaticPaths() {
+  return insights.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: Insight;
+}
+
+const { article } = Astro.props;
+const related = insights.filter((item) => item.slug !== article.slug);
+---
+
+<Base title={article.title} description={article.description}>
+  <article class="section">
+    <div class="container article-shell">
+      <header>
+        <a href="/insights/" class="back-link">← All insights</a>
+        <div class="meta">
+          <span>{article.category}</span>
+          <span>{article.readTime}</span>
+        </div>
+        <h1>{article.title}</h1>
+        <p class="lede">{article.description}</p>
+      </header>
+
+      <div class="article-body">
+        {
+          article.sections.map((section) => (
+            <section>
+              <h2>{section.heading}</h2>
+              {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              {section.bullets && (
+                <ul>
+                  {section.bullets.map((bullet) => <li>{bullet}</li>)}
+                </ul>
+              )}
+            </section>
+          ))
+        }
+
+        <aside class="article-cta card">
+          <h2>Have a process or privacy question?</h2>
+          <p class="muted">
+            Tell us what you are evaluating. We will help you identify a useful next step.
+          </p>
+          <a href="/contact/" class="btn btn-primary">Ask BlackSwamp</a>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <section class="section-tight related">
+    <div class="container">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        {
+          related.map((item) => (
+            <a href={`/insights/${item.slug}/`} class="card">
+              <span>{item.category}</span>
+              <strong>{item.title} →</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .article-shell {
+    max-width: 860px;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.75rem;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta span + span {
+    color: var(--text-faint);
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    max-width: 18ch;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .lede {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    max-width: 65ch;
+  }
+
+  .article-body {
+    max-width: 70ch;
+    margin-top: 3.5rem;
+  }
+
+  .article-body section {
+    margin-bottom: 2.5rem;
+  }
+
+  .article-body h2 {
+    font-size: 1.55rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .article-body p,
+  .article-body li {
+    color: var(--text-dim);
+  }
+
+  .article-body li + li {
+    margin-top: 0.5rem;
+  }
+
+  .article-cta {
+    max-width: none;
+    margin-top: 3rem;
+    background: radial-gradient(500px 180px at 100% 0%, rgba(34, 197, 94, 0.12), transparent 60%), var(--bg-card);
+  }
+
+  .article-cta h2 {
+    font-size: 1.25rem;
+  }
+
+  .related {
+    border-top: 1px solid var(--border);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .related-grid a {
+    color: inherit;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .related-grid a:hover {
+    text-decoration: none;
+    border-color: var(--accent-dark);
+  }
+
+  .related-grid span {
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 640px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
