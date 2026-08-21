@@ -1,0 +1,259 @@
+---
+import Base from '../../layouts/Base.astro';
+import { nodes, publishedNodes } from '../../data/nodes';
+import { site } from '../../data/site';
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    name: 'n8n Community Nodes by BlackSwamp AI Solutions',
+    description:
+      'Open-source n8n community nodes built and maintained by BlackSwamp AI Solutions.',
+    url: `${site.url}/n8n-nodes/`,
+    isPartOf: { '@id': `${site.url}/#website` },
+  },
+  {
+    '@type': 'ItemList',
+    name: 'n8n community nodes by BlackSwamp AI Solutions',
+    numberOfItems: nodes.length,
+    itemListElement: nodes.map((node, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: node.title,
+      url: `${site.url}/n8n-nodes/${node.slug}/`,
+    })),
+  },
+];
+---
+
+<Base
+  title="n8n Community Nodes"
+  description="Free, MIT-licensed n8n community nodes built by BlackSwamp AI: Lago billing, Medusa commerce, StudioCMS, and Twenty CRM. On npm and GitHub."
+  breadcrumbs={[]}
+  schema={schema}
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Open source</span>
+      <h1 class="section-title">n8n community nodes we build and maintain</h1>
+      <p class="section-lede">
+        We publish free, MIT-licensed n8n nodes for the open-source tools our
+        clients actually run. They are the same integrations we use when
+        building automation for businesses—released publicly so anyone can use
+        them. Workflow templates are published on
+        our <a href={site.n8nCreator} rel="noopener noreferrer">n8n creator profile</a>.
+      </p>
+      <div class="node-actions">
+        <a href="/services/workflow-automation/" class="btn btn-primary">See our automation service</a>
+        <a href={site.github} class="btn btn-ghost" rel="noopener">GitHub organization</a>
+        <a href={site.n8nCreator} class="btn btn-ghost" rel="noopener noreferrer">n8n creator profile</a>
+      </div>
+
+      <div class="grid grid-2 node-grid">
+        {
+          nodes.map((node) => (
+            <a href={`/n8n-nodes/${node.slug}/`} class="node card">
+              <div class="node-top">
+                <span class="node-category">{node.category}</span>
+                <span class:list={['status', node.status]}>
+                  {node.status === 'published' ? `v${node.version}` : 'In development'}
+                </span>
+              </div>
+              <h2>{node.title}</h2>
+              <p class="muted">{node.tagline}</p>
+              {node.npm && <code class="pkg">{node.npm}</code>}
+              <strong class="more">Read the details →</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container">
+      <span class="eyebrow">Installing</span>
+      <h2 class="section-title">How to install a community node</h2>
+      <p class="section-lede">
+        In a self-hosted n8n instance, open <strong>Settings → Community
+        Nodes</strong>, choose <strong>Install</strong>, and enter the complete
+        scoped package name. n8n handles the rest.
+      </p>
+      <div class="install-list">
+        {
+          publishedNodes.map((node) => (
+            <div class="install-row">
+              <span>{node.name}</span>
+              <a href={`https://www.npmjs.com/package/${node.npm}`} rel="noopener">
+                <code>{node.npm}</code>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+      <p class="muted footnote">
+        Community nodes run on self-hosted n8n instances. If you would rather
+        not host and maintain n8n yourself, that is something we do for clients.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-band card">
+        <div>
+          <span class="eyebrow">Need an integration that does not exist?</span>
+          <h2>We build custom n8n nodes</h2>
+          <p class="muted">
+            If your business depends on a system with no n8n integration, a
+            purpose-built node is often cheaper than the workarounds around it.
+          </p>
+        </div>
+        <a href="/contact/?subject=Custom%20n8n%20Node" class="btn btn-primary">Talk About a Custom Node</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .node-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1.75rem;
+  }
+
+  .node-grid {
+    margin-top: 2.5rem;
+  }
+
+  .node {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .node:hover {
+    text-decoration: none;
+    border-color: var(--accent-dark);
+  }
+
+  .node-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .node-category {
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .status {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .status.published {
+    color: var(--accent);
+    border-color: var(--accent-dark);
+  }
+
+  .node h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pkg,
+  .install-row code {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.35rem 0.6rem;
+    margin-top: 0.9rem;
+    overflow-wrap: anywhere;
+  }
+
+  .more {
+    color: var(--accent);
+    margin-top: auto;
+    padding-top: 1.1rem;
+    font-size: 0.9rem;
+  }
+
+  .surface {
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .install-list {
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .install-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .install-row span {
+    font-weight: 700;
+  }
+
+  .install-row code {
+    margin-top: 0;
+  }
+
+  .install-row a {
+    text-decoration: none;
+  }
+
+  .install-row a:hover code {
+    color: var(--accent);
+    border-color: var(--accent-dark);
+  }
+
+  .footnote {
+    margin-top: 1.5rem;
+    max-width: 62ch;
+  }
+
+  .cta-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%), var(--bg-card);
+  }
+
+  .cta-band h2 {
+    margin-bottom: 0.35rem;
+  }
+
+  .cta-band p {
+    margin: 0;
+    max-width: 52ch;
+  }
+</style>

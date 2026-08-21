@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { services, type Service } from '../../data/services';
+import { site } from '../../data/site';
 
 export async function getStaticPaths() {
   return services.map((service) => ({
@@ -15,9 +16,36 @@ interface Props {
 
 const { service } = Astro.props;
 const otherServices = services.filter((s) => s.slug !== service.slug);
+
+const schema = {
+  '@type': 'Service',
+  name: service.name,
+  description: service.summary,
+  url: `${site.url}/services/${service.slug}/`,
+  serviceType: service.name,
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: [
+    ...site.serviceArea.map((city) => ({ '@type': 'City', name: city })),
+    { '@type': 'AdministrativeArea', name: 'Northwest Ohio' },
+    { '@type': 'State', name: 'Ohio' },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `${service.name} capabilities`,
+    itemListElement: service.bullets.map((bullet) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: bullet },
+    })),
+  },
+};
 ---
 
-<Base title={service.name} description={service.summary}>
+<Base
+  title={service.name}
+  description={service.summary}
+  breadcrumbs={[{ name: 'Services', href: '/services/' }]}
+  schema={schema}
+>
   <section class="section">
     <div class="container">
       <a href="/services/" class="back-link">← All services</a>

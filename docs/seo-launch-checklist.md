@@ -1,49 +1,101 @@
 # SEO and Local Launch Checklist
 
-The technical site foundation is in place: unique page titles and descriptions,
-canonical URLs, crawlable static pages, redirects for retired service URLs,
-organization structured data, `robots.txt`, and an XML sitemap.
+**Status as of 2026-08-21.** The site is live at <https://blackswampai.com> and
+has no measurable search presence yet. A `site:` search returns nothing, and the
+brand does not appear for "AI Toledo", "n8n Toledo", or similar queries.
 
-The remaining work requires verified business information or access to external
-accounts. Do not invent details simply to complete markup.
+That is expected at this stage, and the causes are known. Read the next section
+before concluding that anything on the page needs further tuning.
+
+## Why the site is not appearing
+
+Ranking work only matters once the basics are true. Three of these were broken
+until now:
+
+1. **The site pointed at a domain that does not exist.** `astro.config` was set
+   to `https://blackswamp.ai`, which is not a registered domain — DNS returns
+   NXDOMAIN and the `.ai` registry returns a 404 for the RDAP record. That value
+   generated every canonical URL, `og:url`, and sitemap `<loc>`. A canonical
+   pointing at an unreachable domain tells Google not to index the page it is
+   on. **Fixed** — the domain now lives in one constant, `siteUrl` in
+   `src/data/site.ts`.
+2. **`robots.txt` advertised a sitemap on that dead domain.** **Fixed.**
+3. **The public contact address was `hello@blackswamp.ai`,** on the same
+   unregistered domain, so it could not receive mail. **Fixed** — now
+   `hello@blackswampai.com`, which has Proton MX records. Confirm that alias
+   actually exists in Proton.
+4. **The site has never been submitted to a search console,** and no other site
+   links to it. Google has no path to discover it and no reason to trust it.
+   **This is now the single biggest blocker, and it cannot be fixed in code.**
+5. **The site is roughly two weeks old.** Even done perfectly, local commercial
+   rankings take months, not days.
+
+## Do these next, in this order
+
+Nothing in the repository moves the needle until these are done.
+
+- [ ] **Google Search Console.** Verify `https://blackswampai.com`, submit
+      `https://blackswampai.com/sitemap-index.xml`, then use URL Inspection →
+      Request Indexing on the homepage, `/ai-consulting-toledo/`, `/services/`,
+      and `/n8n-nodes/`. <https://search.google.com/search-console>
+- [ ] **Google Business Profile.** "AI Toledo" and similar queries return a
+      local pack. Without a verified profile the site cannot appear in it, no
+      matter how good the page is. Register as a service-area business if there
+      is no address customers visit. <https://business.google.com/>
+- [ ] **Bing Webmaster Tools.** Verify and submit the same sitemap. It also
+      feeds ChatGPT search results. <https://www.bing.com/webmasters>
+- [ ] **Decide `www` vs apex.** `www.blackswampai.com` currently serves a 200
+      rather than redirecting to the apex, so the site answers on two hostnames.
+      Canonical tags cover this, but a 301 from `www` to the apex in nginx is
+      the clean fix.
+- [ ] **Fix the first inbound links.** The site has none. Realistic starting
+      points: the LinkedIn company page, the n8n creator profile, and the
+      GitHub organization profile.
+- [ ] **Point the packages back at this site.** All four node packages set
+      `homepage` to their own GitHub README rather than to this site. Each
+      should instead point at its page here, for example
+      `https://blackswampai.com/n8n-nodes/lago/`. npm renders `homepage` as a
+      link on the package page, so this turns every published package into an
+      inbound link. Note that npm metadata is immutable per version: changing
+      it requires publishing a patch release. The `homepage` field on each
+      GitHub repository can be changed immediately and for free.
+- [ ] **Add a `bugs` field to the Lago and Medusa packages.** StudioCMS and
+      Twenty CRM set it; those two do not, so npm shows no Issues link for
+      them and reporters have to find the repository first.
 
 ## Confirm public business facts
 
-- [ ] Confirm the public contact email.
-- [ ] Choose a public telephone number.
+- [x] Public contact email — `hello@blackswampai.com`.
+- [ ] Choose a public telephone number. A local number materially helps a
+      Google Business Profile.
 - [ ] Decide whether BlackSwamp is a service-area business or has a location
-      customers may visit.
+      customers may visit. Add `LocalBusiness` structured data only once this
+      is accurate; the site currently declares `Organization` +
+      `ProfessionalService` with an `areaServed` list, which is honest for a
+      service-area business.
 - [ ] Confirm the public founder name, title, biography, headshot, and relevant
-      experience.
-- [ ] Confirm the canonical LinkedIn and GitHub profiles.
-- [ ] Create a 1200×630 social-sharing image.
+      experience, then add `founder` to the organization schema and a byline to
+      each insight article.
+- [x] Canonical LinkedIn and GitHub profiles — company page and org confirmed.
+- [x] 1200×630 social-sharing image — `public/og.png`.
 
-Once these details are available, update `src/data/site.ts`, the About page, and
-the organization schema in `src/layouts/Base.astro`. Add `LocalBusiness`
-structured data only when the required physical business information is
-accurate and appropriate.
+## What the site now does technically
 
-## Google Business Profile
+Already in place, no further action needed:
 
-- [ ] Create or claim the profile at <https://business.google.com/>.
-- [ ] Verify the business.
-- [ ] Select the most specific accurate primary category available.
-- [ ] Add the website, telephone, service area, hours, services, and description.
-- [ ] Upload the logo, brand mark, and authentic business photos.
-- [ ] Keep the business name and contact details consistent with the website.
-- [ ] Ask real clients for reviews without incentives and respond to reviews.
-
-Google's local guidance emphasizes complete information, relevance, distance,
-prominence, links, and genuine reviews:
-<https://support.google.com/business/answer/7091>
-
-## Search consoles
-
-- [ ] Verify `https://blackswamp.ai` in Google Search Console.
-- [ ] Submit `https://blackswamp.ai/sitemap-index.xml`.
-- [ ] Inspect the homepage, service pages, and insight pages after deployment.
-- [ ] Review indexing, search queries, and page experience monthly.
-- [ ] Add the site to Bing Webmaster Tools and submit the same sitemap.
+- Canonical URLs, `og:url`, and sitemap generated from one `siteUrl` constant
+- `robots` meta with `max-image-preview:large`, per-page titles and descriptions
+- A JSON-LD `@graph` on every page: `Organization` + `ProfessionalService` with
+  `areaServed`, `knowsAbout`, and `sameAs`; plus `WebSite`
+- `BreadcrumbList` on every detail page
+- `FAQPage` on the homepage and the Toledo page
+- `Service` on the homepage and each service page
+- `Article` on each insight
+- `SoftwareSourceCode` on each n8n node page
+- 301 redirects for retired service URLs, excluded from the sitemap
+- `/ai-consulting-toledo/` as a dedicated local landing page
+- `/n8n-nodes/` plus a detail page per node, linked from the nav, footer, and
+  homepage
 
 ## Local authority and proof
 
@@ -54,11 +106,20 @@ prominence, links, and genuine reviews:
 - [ ] Add measurable outcomes only when documentation supports them.
 - [ ] Add testimonials only with explicit permission and attribution preferences.
 
+Google's local guidance emphasizes complete information, relevance, distance,
+prominence, links, and genuine reviews:
+<https://support.google.com/business/answer/7091>
+
 ## Editorial cadence
 
 Favor firsthand, useful material over generic AI news. A sustainable initial
-cadence is one strong article or case study per month. Useful next topics:
+cadence is one strong article or case study per month.
 
+The n8n node work is the most defensible content the business has: it is
+original, verifiable, and targets queries with real intent and little
+competition. Useful next topics:
+
+- Building a custom n8n node: what it costs and when it is worth it
 - Five document workflows a small manufacturer can automate
 - A practical automation ROI worksheet
 - Private AI versus enterprise hosted AI for sensitive teams
@@ -67,3 +128,11 @@ cadence is one strong article or case study per month. Useful next topics:
 
 Each article should have an accountable author, a clear audience, original
 examples or analysis, and links to the most relevant service—not every service.
+
+## When the .ai domain is acquired
+
+`blackswamp.ai` is not registered today. If it is acquired later, do not simply
+switch `siteUrl`: that would restart the indexing history built on
+`blackswampai.com`. Instead, 301 every path from the old host to the new one,
+keep both verified in Search Console, use the Change of Address tool, and update
+`robots.txt`, the LinkedIn and n8n profiles, and the npm/GitHub homepage fields.

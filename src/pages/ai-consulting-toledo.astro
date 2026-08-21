@@ -1,0 +1,364 @@
+---
+import Base from '../layouts/Base.astro';
+import { services } from '../data/services';
+import { faqs } from '../data/content';
+import { site } from '../data/site';
+
+const localFaqs = [
+  {
+    question: 'Do you meet with businesses in person in the Toledo area?',
+    answer:
+      'Yes. For businesses in Toledo and the surrounding Northwest Ohio communities, an on-site visit is often the fastest way to understand a process, especially when the work involves paper, physical operations, or systems that are only reachable from inside the building. Follow-on work is usually a mix of on-site and remote.',
+  },
+  {
+    question: 'Which communities do you serve?',
+    answer: `We regularly work with businesses in ${site.serviceArea.slice(0, -1).join(', ')}, and ${site.serviceArea.slice(-1)}, along with the rest of Northwest Ohio and southeast Michigan. Remote engagements outside the region are welcome as well.`,
+  },
+  {
+    question: 'Are you a good fit for a small business with no IT department?',
+    answer:
+      'Often, yes. A lean team is exactly where repetitive administrative work hurts most, and where a well-scoped automation returns the most time. We can also work alongside an existing managed service provider or IT contractor and define clear ownership of anything we build.',
+  },
+  {
+    question: 'What does an engagement typically cost to start?',
+    answer:
+      'Most relationships begin with a scoped assessment or a single focused pilot rather than an open-ended retainer, so the first commitment stays small and produces a concrete deliverable. Pricing depends on the scope, which we define together before any work begins.',
+  },
+];
+
+const schema = [
+  {
+    '@type': 'FAQPage',
+    mainEntity: [...localFaqs, ...faqs].map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  },
+  {
+    '@type': 'Service',
+    name: 'AI consulting and workflow automation in Toledo, Ohio',
+    description:
+      'AI consulting, n8n workflow automation, and private on-premises AI for businesses in Toledo and Northwest Ohio.',
+    url: `${site.url}/ai-consulting-toledo/`,
+    provider: { '@id': `${site.url}/#organization` },
+    areaServed: [
+      ...site.serviceArea.map((city) => ({ '@type': 'City', name: city })),
+      { '@type': 'AdministrativeArea', name: 'Northwest Ohio' },
+    ],
+  },
+];
+---
+
+<Base
+  title="AI Consulting & Automation in Toledo, Ohio"
+  description="AI consulting, n8n workflow automation, and private on-premises AI for businesses in Toledo and Northwest Ohio. Local, practical, and privacy-first."
+  schema={schema}
+>
+  <section class="section local-hero">
+    <div class="container">
+      <span class="eyebrow">Toledo &amp; Northwest Ohio</span>
+      <h1>AI consulting and automation for Toledo businesses</h1>
+      <p class="section-lede">
+        BlackSwamp AI Solutions is an AI and automation consultancy based
+        in {site.location.label}. We help local small and midsize businesses
+        automate repetitive work with n8n, deploy AI on infrastructure they
+        control, and tell the difference between a useful AI project and an
+        expensive one.
+      </p>
+      <div class="hero-actions">
+        <a href="/contact/" class="btn btn-primary">Tell Us What's Slowing You Down</a>
+        <a href="/services/" class="btn btn-ghost">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container">
+      <span class="eyebrow">What we do here</span>
+      <h2 class="section-title">Three kinds of work, all of it local</h2>
+      <div class="grid grid-3 local-services">
+        {
+          services.map((service) => (
+            <a href={`/services/${service.slug}/`} class="card local-service">
+              <span aria-hidden="true">{service.icon}</span>
+              <h3>{service.name}</h3>
+              <p class="muted">{service.summary}</p>
+              <strong>Learn more →</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Service area</span>
+        <h2 class="section-title">Where we work</h2>
+        <p class="muted">
+          Toledo anchors a region of manufacturers, distributors, professional
+          firms, and family-owned businesses that run on a mix of long-standing
+          software and a great deal of manual coordination. That gap—between
+          the systems a business already owns and the work people still do by
+          hand—is where most of our projects begin.
+        </p>
+        <p class="muted">
+          Being local matters when the process involves the shop floor, paper
+          records, or systems that only exist on a machine in the office. For
+          everything else, remote work is usually faster for everyone.
+        </p>
+      </div>
+      <ul class="city-list">
+        {site.serviceArea.map((city) => <li>{city}</li>)}
+        <li>Northwest Ohio</li>
+        <li>Southeast Michigan</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container">
+      <span class="eyebrow">Why a local partner</span>
+      <h2 class="section-title">Named for the ground we work on</h2>
+      <div class="grid grid-3 reasons">
+        <article class="card">
+          <h3>We know the operating reality</h3>
+          <p class="muted">
+            Lean teams, mixed software estates, and a strong preference for
+            things that keep working without a specialist on call.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Your data stays where you decide</h3>
+          <p class="muted">
+            Private and on-premises options are a first-class choice here, not
+            an expensive upsell after the fact.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Straight answers about AI</h3>
+          <p class="muted">
+            Sometimes the honest recommendation is a better process, a fixed
+            integration, or no AI at all. We will say so.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq-wrap">
+      <div>
+        <span class="eyebrow">Local questions</span>
+        <h2 class="section-title">Working with us in Northwest Ohio</h2>
+      </div>
+      <div class="faq-list">
+        {
+          localFaqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p class="muted">{faq.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-band card">
+        <div>
+          <span class="eyebrow">Start with the bottleneck</span>
+          <h2>Let's talk about what's slowing your team down</h2>
+          <p class="muted">
+            Send the rough version. We will help turn it into a practical next step.
+          </p>
+        </div>
+        <a href="/contact/" class="btn btn-primary">Contact BlackSwamp</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .local-hero h1 {
+    max-width: 20ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .local-hero .section-lede {
+    max-width: 68ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1.75rem;
+  }
+
+  .surface {
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .local-services,
+  .reasons {
+    margin-top: 2rem;
+  }
+
+  .local-service {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .local-service:hover {
+    text-decoration: none;
+    border-color: var(--accent-dark);
+  }
+
+  .local-service > span {
+    font-size: 1.6rem;
+  }
+
+  .local-service h3 {
+    font-size: 1.1rem;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .local-service p {
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  .local-service strong {
+    color: var(--accent);
+    margin-top: auto;
+    padding-top: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .reasons h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .reasons p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .split,
+  .faq-wrap {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .city-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .city-list li {
+    color: var(--text-dim);
+    padding: 0.85rem 1rem 0.85rem 2.4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    font-size: 0.92rem;
+  }
+
+  .city-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 1rem;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  .city-list li:nth-child(odd) {
+    border-right: 1px solid var(--border);
+  }
+
+  .city-list li:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .faq-list {
+    border-top: 1px solid var(--border-strong);
+  }
+
+  details {
+    border-bottom: 1px solid var(--border);
+  }
+
+  summary {
+    cursor: pointer;
+    padding: 1.1rem 2rem 1.1rem 0;
+    font-weight: 700;
+  }
+
+  summary::marker {
+    color: var(--accent);
+  }
+
+  details p {
+    padding: 0 0 1.1rem;
+    margin: 0;
+  }
+
+  .cta-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: radial-gradient(600px 200px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%), var(--bg-card);
+  }
+
+  .cta-band h2 {
+    margin-bottom: 0.35rem;
+  }
+
+  .cta-band p {
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .faq-wrap {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .city-list {
+      grid-template-columns: 1fr;
+    }
+
+    .city-list li,
+    .city-list li:nth-child(odd),
+    .city-list li:nth-last-child(-n + 2) {
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .city-list li:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

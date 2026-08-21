@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { insights, type Insight } from '../../data/insights';
+import { site } from '../../data/site';
 
 export function getStaticPaths() {
   return insights.map((article) => ({
@@ -15,9 +16,29 @@ interface Props {
 
 const { article } = Astro.props;
 const related = insights.filter((item) => item.slug !== article.slug);
+
+const schema = {
+  '@type': 'Article',
+  headline: article.title,
+  description: article.description,
+  url: `${site.url}/insights/${article.slug}/`,
+  mainEntityOfPage: `${site.url}/insights/${article.slug}/`,
+  articleSection: article.category,
+  image: `${site.url}/og.png`,
+  inLanguage: 'en-US',
+  author: { '@id': `${site.url}/#organization` },
+  publisher: { '@id': `${site.url}/#organization` },
+  isPartOf: { '@id': `${site.url}/#website` },
+};
 ---
 
-<Base title={article.title} description={article.description}>
+<Base
+  title={article.title}
+  description={article.description}
+  breadcrumbs={[{ name: 'Insights', href: '/insights/' }]}
+  schema={schema}
+  ogType="article"
+>
   <article class="section">
     <div class="container article-shell">
       <header>

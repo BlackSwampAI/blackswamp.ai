@@ -4,26 +4,127 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 
+export interface Breadcrumb {
+  name: string;
+  href: string;
+}
+
 interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  /** Trail of ancestors, excluding Home and excluding the current page. */
+  breadcrumbs?: Breadcrumb[];
+  /** Additional JSON-LD graph nodes for this page. */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  ogType?: 'website' | 'article';
 }
 
-const { title, description = site.description, noindex = false } = Astro.props;
-const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | Practical AI & Automation in Toledo, Ohio`;
+const {
+  title,
+  description = site.description,
+  noindex = false,
+  breadcrumbs = [],
+  schema,
+  ogType = 'website',
+} = Astro.props;
+
+// Google truncates titles around 60 characters, so the brand suffix is kept
+// short to leave room for the keyword-bearing part of each page title.
+const pageTitle = title
+  ? `${title} | BlackSwamp AI`
+  : 'AI Automation & n8n Consulting in Toledo, Ohio | BlackSwamp';
 const canonical = new URL(Astro.url.pathname, site.url);
-const socialImage = new URL('/mark.png', site.url);
+const socialImage = new URL('/og.png', site.url);
+
+const organization = {
+  '@type': ['Organization', 'ProfessionalService'],
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  url: site.url,
+  logo: {
+    '@type': 'ImageObject',
+    url: new URL('/logo.png', site.url).href,
+  },
+  image: socialImage.href,
+  email: site.email,
+  description: site.description,
+  sameAs: [...site.social.map((profile) => profile.href), site.n8nCreator],
+  knowsAbout: [
+    'n8n workflow automation',
+    'Business process automation',
+    'Private and on-premises AI',
+    'Retrieval-augmented generation',
+    'Self-hosted large language models',
+    'AI strategy for small and midsize businesses',
+    'System and API integration',
+  ],
+  areaServed: [
+    ...site.serviceArea.map((city) => ({ '@type': 'City', name: city })),
+    { '@type': 'AdministrativeArea', name: 'Northwest Ohio' },
+    { '@type': 'State', name: 'Ohio' },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.location.city,
+    addressRegion: site.location.region,
+    addressCountry: 'US',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    email: site.email,
+    areaServed: 'US',
+    availableLanguage: 'English',
+  },
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  description: site.description,
+  publisher: { '@id': `${site.url}/#organization` },
+  inLanguage: 'en-US',
+};
+
+const breadcrumbList =
+  breadcrumbs.length > 0
+    ? {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' },
+          ...breadcrumbs.map((crumb, index) => ({
+            '@type': 'ListItem',
+            position: index + 2,
+            name: crumb.name,
+            item: new URL(crumb.href, site.url).href,
+          })),
+          {
+            '@type': 'ListItem',
+            position: breadcrumbs.length + 2,
+            name: title ?? site.name,
+            item: canonical.href,
+          },
+        ],
+      }
+    : null;
+
+const extraSchema = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+
+const graph = [organization, website, breadcrumbList, ...extraSchema].filter(Boolean);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, follow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
     <meta name="theme-color" content="#0a0f0c" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -32,16 +133,20 @@ const socialImage = new URL('/mark.png', site.url);
     <link rel="preload" as="image" href="/logo.png" fetchpriority="high" />
     <meta name="generator" content={Astro.generator} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content={`${site.name} brand mark`} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} — practical AI and automation in Toledo, Ohio`} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,26 +155,11 @@ const socialImage = new URL('/mark.png', site.url);
       rel="stylesheet"
     />
 
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: site.name,
-      url: site.url,
-      logo: new URL('/logo.png', site.url),
-      email: site.email,
-      description: site.description,
-      sameAs: site.social.map((profile) => profile.href),
-      areaServed: [
-        { '@type': 'City', name: site.location.city },
-        { '@type': 'AdministrativeArea', name: 'Northwest Ohio' },
-      ],
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: site.location.city,
-        addressRegion: 'OH',
-        addressCountry: 'US',
-      },
-    })} />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })}
+    />
   </head>
   <body>
     <Header />

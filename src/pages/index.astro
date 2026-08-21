@@ -10,22 +10,48 @@ import {
   startingOffers,
 } from '../data/content';
 import { insights } from '../data/insights';
+import { nodes } from '../data/nodes';
 import { site } from '../data/site';
+
+const schema = [
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  },
+  ...services.map((service) => ({
+    '@type': 'Service',
+    name: service.name,
+    description: service.summary,
+    url: `${site.url}/services/${service.slug}/`,
+    serviceType: service.name,
+    provider: { '@id': `${site.url}/#organization` },
+    areaServed: [
+      ...site.serviceArea.map((city) => ({ '@type': 'City', name: city })),
+      { '@type': 'AdministrativeArea', name: 'Northwest Ohio' },
+    ],
+  })),
+];
 ---
 
-<Base>
+<Base schema={schema}>
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Based in {site.location.label} · Serving Northwest Ohio &amp; beyond</p>
-        <h1>Practical AI and automation for businesses that value privacy.</h1>
+        <h1>AI automation for Toledo businesses that value privacy.</h1>
         <p class="hero-lede">
           Automate repetitive work. Keep sensitive data private. Get straight
           answers about where AI fits—and where it does not.
         </p>
         <p class="hero-detail">
-          BlackSwamp designs n8n workflows, private AI systems, and custom
-          integrations for small and midsize businesses.
+          BlackSwamp AI Solutions is an AI and automation consultancy
+          in {site.location.label}, building n8n workflows, private on-premises AI
+          systems, and custom integrations for small and midsize businesses
+          across Northwest Ohio.
         </p>
         <div class="hero-actions">
           <a href="/contact/" class="btn btn-primary">Tell Us What's Slowing You Down</a>
@@ -148,6 +174,9 @@ import { site } from '../data/site';
           the region's practical resourcefulness to technology that can be
           difficult to evaluate and easy to oversell.
         </p>
+        <p class="oss-more">
+          <a href="/ai-consulting-toledo/" class="text-link">How we work with Toledo businesses →</a>
+        </p>
       </div>
       <div class="principles">
         <div><strong>Problem first</strong><span>AI is a tool, not the starting requirement.</span></div>
@@ -158,7 +187,37 @@ import { site } from '../data/site';
     </div>
   </section>
 
-  <section class="section" aria-labelledby="insights-heading">
+  <section class="section" aria-labelledby="oss-heading">
+    <div class="container">
+      <span class="eyebrow">Open source</span>
+      <h2 id="oss-heading" class="section-title">We build the integrations we use</h2>
+      <p class="section-lede">
+        When a tool our clients depend on has no n8n integration, we write one
+        and publish it. Free, MIT licensed, and available to anyone—alongside
+        workflow templates on
+        our <a href={site.n8nCreator} class="text-link" rel="noopener noreferrer">n8n creator profile</a>.
+      </p>
+      <div class="grid grid-4 node-grid">
+        {
+          nodes.map((node) => (
+            <a href={`/n8n-nodes/${node.slug}/`} class="node-chip card">
+              <span>{node.category}</span>
+              <h3>{node.name}</h3>
+              <p class="muted">{node.tagline}</p>
+              <strong>
+                {node.status === 'published' ? `v${node.version} on npm →` : 'In development →'}
+              </strong>
+            </a>
+          ))
+        }
+      </div>
+      <p class="oss-more">
+        <a href="/n8n-nodes/" class="text-link">See all our n8n community nodes →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section surface" aria-labelledby="insights-heading">
     <div class="container">
       <span class="eyebrow">Field notes</span>
       <h2 id="insights-heading" class="section-title">Useful guidance before you buy anything</h2>
@@ -177,7 +236,7 @@ import { site } from '../data/site';
     </div>
   </section>
 
-  <section class="section surface" aria-labelledby="faq-heading">
+  <section class="section" aria-labelledby="faq-heading">
     <div class="container faq-wrap">
       <div>
         <span class="eyebrow">Common questions</span>
@@ -401,6 +460,51 @@ import { site } from '../data/site';
   .principles > div { display: grid; grid-template-columns: 0.65fr 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
   .principles strong { color: var(--accent); }
   .principles span { color: var(--text-dim); }
+
+  .node-grid {
+    margin-top: 2rem;
+  }
+
+  .node-chip {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .node-chip:hover {
+    text-decoration: none;
+    border-color: var(--accent-dark);
+  }
+
+  .node-chip > span {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .node-chip h3 {
+    font-size: 1.05rem;
+    margin: 0.6rem 0 0.5rem;
+  }
+
+  .node-chip p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .node-chip strong {
+    color: var(--accent);
+    margin-top: auto;
+    padding-top: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .oss-more {
+    margin-top: 1.75rem;
+    font-weight: 700;
+  }
 
   .insight {
     color: inherit;

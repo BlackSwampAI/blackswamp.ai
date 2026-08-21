@@ -1,6 +1,7 @@
 ---
 import { site } from '../data/site';
 import { services } from '../data/services';
+import { nodes } from '../data/nodes';
 import Logo from './Logo.astro';
 import SocialLinks from './SocialLinks.astro';
 ---
@@ -31,9 +32,26 @@ import SocialLinks from './SocialLinks.astro';
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About Us</a></li>
+        <li><a href="/ai-consulting-toledo/">AI Consulting in Toledo</a></li>
         <li><a href="/services/">All Services</a></li>
+        <li><a href="/n8n-nodes/">n8n Nodes</a></li>
         <li><a href="/insights/">Insights</a></li>
         <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Open Source</h4>
+      <ul>
+        {
+          nodes.map((node) => (
+            <li>
+              <a href={`/n8n-nodes/${node.slug}/`}>{node.name} node</a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={site.n8nCreator} rel="noopener noreferrer">n8n creator profile</a>
+        </li>
       </ul>
     </div>
     <div>
@@ -63,7 +81,7 @@ import SocialLinks from './SocialLinks.astro';
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    grid-template-columns: 1.7fr 1fr 1fr 1fr 1.1fr;
     gap: 2.5rem;
     padding-top: 3rem;
     padding-bottom: 2.5rem;

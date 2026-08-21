@@ -1,0 +1,385 @@
+---
+import Base from '../../layouts/Base.astro';
+import { nodes, type N8nNode } from '../../data/nodes';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return nodes.map((node) => ({
+    params: { slug: node.slug },
+    props: { node },
+  }));
+}
+
+interface Props {
+  node: N8nNode;
+}
+
+const { node } = Astro.props;
+const others = nodes.filter((item) => item.slug !== node.slug);
+const npmUrl = node.npm ? `https://www.npmjs.com/package/${node.npm}` : null;
+
+const schema = {
+  '@type': 'SoftwareSourceCode',
+  name: node.title,
+  description: node.description,
+  url: `${site.url}/n8n-nodes/${node.slug}/`,
+  codeRepository: node.repo,
+  programmingLanguage: 'TypeScript',
+  runtimePlatform: 'n8n',
+  license: 'https://opensource.org/licenses/MIT',
+  author: { '@id': `${site.url}/#organization` },
+  maintainer: { '@id': `${site.url}/#organization` },
+  ...(node.status === 'published'
+    ? { softwareVersion: node.version, sameAs: npmUrl }
+    : {}),
+};
+---
+
+<Base
+  title={node.title}
+  description={node.description}
+  breadcrumbs={[{ name: 'n8n Nodes', href: '/n8n-nodes/' }]}
+  schema={schema}
+>
+  <section class="section">
+    <div class="container">
+      <a href="/n8n-nodes/" class="back-link">← All n8n nodes</a>
+
+      <div class="node-head">
+        <span class="eyebrow">{node.category}</span>
+        <h1>{node.title}</h1>
+        <p class="tagline accent">{node.tagline}</p>
+        <p class="summary">{node.summary}</p>
+
+        <div class="badges">
+          <span class:list={['status', node.status]}>
+            {node.status === 'published' ? `Published · v${node.version}` : 'In active development'}
+          </span>
+          <span class="status">MIT licensed</span>
+          <span class="status">Self-hosted n8n</span>
+        </div>
+
+        <div class="head-actions">
+          {
+            npmUrl ? (
+              <a href={npmUrl} class="btn btn-primary" rel="noopener">View on npm</a>
+            ) : (
+              <a href={node.repo} class="btn btn-primary" rel="noopener">Follow on GitHub</a>
+            )
+          }
+        </div>
+      </div>
+
+      {
+        node.npm && (
+          <div class="install card">
+            <span class="eyebrow">Install</span>
+            <p class="muted">
+              In self-hosted n8n, go to <strong>Settings → Community Nodes →
+              Install</strong> and enter the package name:
+            </p>
+            <code class="install-code">{node.npm}</code>
+          </div>
+        )
+      }
+
+      <div class="node-body">
+        <div class="prose">
+          <h2>Why it works this way</h2>
+          {node.details.map((paragraph) => <p class="muted">{paragraph}</p>)}
+
+          {
+            node.resources.length > 0 && (
+              <>
+                <h2>Supported resources and operations</h2>
+                <div class="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Resource</th>
+                        <th>Operations</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {node.resources.map((resource) => (
+                        <tr>
+                          <td>{resource.name}</td>
+                          <td class="muted">{resource.operations}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )
+          }
+
+          {
+            node.extraNodes?.map((extra) => (
+              <>
+                <h2>{extra.name}</h2>
+                <p class="muted">{extra.description}</p>
+              </>
+            ))
+          }
+
+          <div class="cta-inline card">
+            <h3>Want this running in your business?</h3>
+            <p class="muted">
+              We design, host, and monitor the workflows these nodes plug into.
+              If {node.platform} is part of how your business runs, we can
+              connect it to the rest of your systems.
+            </p>
+            <a
+              href={`/contact/?subject=${encodeURIComponent(`${node.name} automation`)}`}
+              class="btn btn-primary"
+            >
+              Ask About {node.name} Automation
+            </a>
+          </div>
+        </div>
+
+        <aside class="node-side">
+          <div class="card">
+            <h3>Notable details</h3>
+            <ul class="check-list">
+              {node.highlights.map((highlight) => <li>{highlight}</li>)}
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Links</h3>
+            <ul class="link-list">
+              {npmUrl && <li><a href={npmUrl} rel="noopener">npm package</a></li>}
+              <li><a href={node.repo} rel="noopener">Source and issues on GitHub</a></li>
+              <li><a href={node.platformUrl} rel="noopener noreferrer">{node.platform} website</a></li>
+              <li>
+                <a href="https://docs.n8n.io/integrations/community-nodes/installation/" rel="noopener noreferrer">
+                  n8n community node docs
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight more-nodes">
+    <div class="container">
+      <h2>Other nodes we maintain</h2>
+      <div class="more-grid">
+        {
+          others.map((item) => (
+            <a href={`/n8n-nodes/${item.slug}/`} class="card">
+              <span>{item.category}</span>
+              <strong>{item.title} →</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .back-link {
+    display: inline-block;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .node-head {
+    max-width: 68ch;
+  }
+
+  .node-head h1 {
+    margin: 0.5rem 0 0.75rem;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .summary {
+    color: var(--text-dim);
+    font-size: 1.05rem;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .status.published {
+    color: var(--accent);
+    border-color: var(--accent-dark);
+  }
+
+  .head-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  .install {
+    margin-top: 2.5rem;
+  }
+
+  .install p {
+    margin: 0.6rem 0 1rem;
+  }
+
+  .install-code {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.95rem;
+    color: var(--accent);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  .node-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.9fr);
+    gap: 3rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  .prose h2 {
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+  }
+
+  .prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  th {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  td:first-child {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .cta-inline {
+    margin-top: 3rem;
+  }
+
+  .cta-inline p {
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .node-side {
+    display: grid;
+    gap: 1.25rem;
+    position: sticky;
+    top: 6rem;
+  }
+
+  .node-side h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.92rem;
+  }
+
+  .more-nodes h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .more-grid a {
+    color: inherit;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .more-grid a:hover {
+    text-decoration: none;
+    border-color: var(--accent-dark);
+  }
+
+  .more-grid span {
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .node-body {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .node-side {
+      position: static;
+    }
+
+    .more-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
