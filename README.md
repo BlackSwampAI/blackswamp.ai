@@ -1,6 +1,6 @@
-# BlackSwamp AI Solutions
+# Black Swamp AI Solutions
 
-Marketing site for BlackSwamp AI Solutions, an AI and automation consultancy
+Marketing site for Black Swamp AI Solutions, an AI and automation consultancy
 based in Toledo, Ohio.
 
 ## Stack
@@ -60,6 +60,20 @@ homepage section, footer column, detail route, and sitemap follow from it.
 
 Set `status` to `'in-development'` and leave `npm` empty for a node that is not
 published yet — the templates hide the install instructions and npm link.
+
+## Naming
+
+Two forms are in use deliberately:
+
+- `site.name` — **Black Swamp AI Solutions**, the formal name. Used for the
+  copyright line and schema `name`/`legalName`. This must match the Google
+  Business Profile listing and the LinkedIn company page exactly.
+- `site.shortName` — **Black Swamp AI**, the everyday display name. Used for
+  title suffixes and `og:site_name`, and emitted as schema `alternateName` so
+  both forms resolve to one entity.
+
+The GitHub organization and n8n creator profile use the short form; that is
+intentional and covered by `alternateName`.
 
 ## Domain
 

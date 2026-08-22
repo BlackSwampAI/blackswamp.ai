@@ -15,12 +15,23 @@ export const siteUrl = 'https://blackswampai.com';
 const linkedInCompanyUrl = 'https://www.linkedin.com/company/blackswampai/';
 
 export const site = {
-  name: 'BlackSwamp AI Solutions',
+  /**
+   * Formal name. Used for the copyright line, schema `name`/`legalName`, and
+   * anywhere the business is identified officially — this is the string that
+   * must match the Google Business Profile listing.
+   */
+  name: 'Black Swamp AI Solutions',
+  /**
+   * Everyday display name. Used for title suffixes and `og:site_name`, and
+   * declared as schema `alternateName` so search engines treat both forms as
+   * one entity rather than two businesses.
+   */
+  shortName: 'Black Swamp AI',
   brandTop: 'BLACK SWAMP',
   brandSub: 'AI SOLUTIONS',
   url: siteUrl,
   description:
-    'BlackSwamp AI Solutions builds n8n workflow automation and private, on-premises AI for small and midsize businesses in Toledo and Northwest Ohio.',
+    'Black Swamp AI Solutions builds n8n workflow automation and private, on-premises AI for small and midsize businesses in Toledo and Northwest Ohio.',
   location: {
     city: 'Toledo',
     state: 'Ohio',

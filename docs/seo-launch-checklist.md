@@ -68,7 +68,7 @@ Nothing in the repository moves the needle until these are done.
 - [x] Public contact email — `hello@blackswampai.com`.
 - [ ] Choose a public telephone number. A local number materially helps a
       Google Business Profile.
-- [ ] Decide whether BlackSwamp is a service-area business or has a location
+- [ ] Decide whether Black Swamp AI Solutions is a service-area business or has a location
       customers may visit. Add `LocalBusiness` structured data only once this
       is accurate; the site currently declares `Organization` +
       `ProfessionalService` with an `areaServed` list, which is honest for a

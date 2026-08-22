@@ -32,8 +32,8 @@ const {
 // Google truncates titles around 60 characters, so the brand suffix is kept
 // short to leave room for the keyword-bearing part of each page title.
 const pageTitle = title
-  ? `${title} | BlackSwamp AI`
-  : 'AI Automation & n8n Consulting in Toledo, Ohio | BlackSwamp';
+  ? `${title} | ${site.shortName}`
+  : `AI Automation & n8n Consulting in Toledo, Ohio | ${site.shortName}`;
 const canonical = new URL(Astro.url.pathname, site.url);
 const socialImage = new URL('/og.png', site.url);
 
@@ -41,6 +41,8 @@ const organization = {
   '@type': ['Organization', 'ProfessionalService'],
   '@id': `${site.url}/#organization`,
   name: site.name,
+  legalName: site.name,
+  alternateName: site.shortName,
   url: site.url,
   logo: {
     '@type': 'ImageObject',
@@ -83,7 +85,7 @@ const website = {
   '@type': 'WebSite',
   '@id': `${site.url}/#website`,
   url: site.url,
-  name: site.name,
+  name: site.shortName,
   description: site.description,
   publisher: { '@id': `${site.url}/#organization` },
   inLanguage: 'en-US',
@@ -134,7 +136,7 @@ const graph = [organization, website, breadcrumbList, ...extraSchema].filter(Boo
     <meta name="generator" content={Astro.generator} />
 
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content={site.name} />
+    <meta property="og:site_name" content={site.shortName} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
