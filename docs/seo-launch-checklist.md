@@ -34,34 +34,40 @@ until now:
 
 Nothing in the repository moves the needle until these are done.
 
-- [ ] **Google Search Console.** Verify `https://blackswampai.com`, submit
-      `https://blackswampai.com/sitemap-index.xml`, then use URL Inspection →
-      Request Indexing on the homepage, `/ai-consulting-toledo/`, `/services/`,
-      and `/n8n-nodes/`. <https://search.google.com/search-console>
+- [x] **Google Search Console.** Domain property verified (inherited from
+      Google Workspace domain ownership, so no `google-site-verification` TXT
+      record exists or is needed). Sitemap submitted and processed: 17 URLs
+      discovered. Note a Domain property requires the *full* sitemap URL,
+      `https://blackswampai.com/sitemap-index.xml`, not a relative path.
+- [ ] **Request indexing** via URL Inspection on `/`,
+      `/ai-consulting-toledo/`, `/services/workflow-automation/`,
+      `/n8n-nodes/` and `/services/`. There is a daily quota, so spend it on
+      these rather than all 17 URLs; the sitemap covers the rest.
 - [ ] **Google Business Profile.** "AI Toledo" and similar queries return a
       local pack. Without a verified profile the site cannot appear in it, no
-      matter how good the page is. Register as a service-area business if there
-      is no address customers visit. <https://business.google.com/>
-- [ ] **Bing Webmaster Tools.** Verify and submit the same sitemap. It also
-      feeds ChatGPT search results. <https://www.bing.com/webmasters>
-- [ ] **Decide `www` vs apex.** `www.blackswampai.com` currently serves a 200
-      rather than redirecting to the apex, so the site answers on two hostnames.
-      Canonical tags cover this, but a 301 from `www` to the apex in nginx is
-      the clean fix.
+      matter how good the page is. Register as a service-area business.
+      **Blocked until the LLC is formed** — set the name once, from the
+      registered entity, because editing a GBP name after verification is a
+      common trigger for re-review. <https://business.google.com/>
+- [ ] **Bing Webmaster Tools.** Can import directly from Search Console now
+      that it is verified. Also feeds ChatGPT search.
+      <https://www.bing.com/webmasters>
+- [x] **`www` redirects to the apex.** `https://www.blackswampai.com/` now
+      returns 301 to `https://blackswampai.com/`.
 - [ ] **Fix the first inbound links.** The site has none. Realistic starting
       points: the LinkedIn company page, the n8n creator profile, and the
       GitHub organization profile.
-- [ ] **Point the packages back at this site.** All four node packages set
-      `homepage` to their own GitHub README rather than to this site. Each
-      should instead point at its page here, for example
-      `https://blackswampai.com/n8n-nodes/lago/`. npm renders `homepage` as a
-      link on the package page, so this turns every published package into an
-      inbound link. Note that npm metadata is immutable per version: changing
-      it requires publishing a patch release. The `homepage` field on each
-      GitHub repository can be changed immediately and for free.
-- [ ] **Add a `bugs` field to the Lago and Medusa packages.** StudioCMS and
-      Twenty CRM set it; those two do not, so npm shows no Issues link for
-      them and reporters have to find the repository first.
+- [x] **Point the GitHub repositories at this site.** All four node repos now
+      set `homepage` to their matching `/n8n-nodes/<slug>/` page, with
+      descriptions and topics filled in.
+- [ ] **Point the npm packages at this site.** All three published packages
+      still resolve `homepage` to their GitHub README. npm *infers* both
+      `homepage` and `bugs` from the `repository` field when they are not set
+      explicitly, which is where those values come from — so setting
+      `homepage` in `package.json` overrides the inferred value and turns each
+      package page into an inbound link. npm metadata is immutable per
+      version, so this requires a patch release per package. No `bugs` change
+      is needed; the inferred issue links are already correct.
 
 ## Confirm public business facts
 
